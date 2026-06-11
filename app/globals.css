@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/*
+ * Fatback Butcher — design tokens extracted from www.fatbackbutcher.com.
+ * Real brand fonts are Adobe Fonts (nature-spirit / typewriter-basix); we
+ * substitute Oswald (display) + Special Elite (typewriter) via next/font.
+ * To use the exact brand fonts, add your Adobe kit and point --font-display /
+ * --font-type at "nature-spirit" / "typewriter-basix".
+ */
+@theme {
+  /* palette */
+  --color-cream: #eee0cc;
+  --color-maroon: #7b2525;
+  --color-olive: #607456;
+  --color-copper: #ba6a4c;
+  --color-warm-gray: #937c73;
+  --color-ink: #2d2424;
+  --color-paper: #ffffff;
+  --color-gray-100: #f7f1e8;
+
+  --color-background: #ffffff;
+  --color-foreground: #2d2424;
+
+  /* fonts — Adobe Fonts (Baskerville) primary, Libre Baskerville (Google) fallback.
+     The Adobe families load only when a Typekit kit id is set in layout.tsx;
+     until then Libre Baskerville (--font-baskerville) renders. */
+  --font-display: "berthold-baskerville-pro", "baskerville-bt", var(--font-baskerville), Georgia, "Times New Roman", serif;
+  --font-type: "berthold-baskerville-pro", var(--font-baskerville), Georgia, "Times New Roman", serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* type scale (from captured fontSizes) */
+  --text-hero: 4.625rem;   /* 74px */
+  --text-h1: 3rem;         /* 48px */
+  --text-h2: 2.5rem;       /* 40px */
+  --text-h3: 1.75rem;      /* 28px */
+  --text-h4: 1.375rem;     /* 22px */
+  --text-body: 1rem;       /* 16px */
+  --text-small: 0.875rem;  /* 14px */
+  --text-xs: 0.75rem;      /* 12px */
+
+  /* misc */
+  --radius-pill: 50px;
+  --shadow-soft: 0 4px 4px rgba(0, 0, 0, 0.02);
+  --shadow-float: 2px 8px 60px -2px rgba(0, 0, 0, 0.2);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-type);
+}
+
+/* shared primitives -------------------------------------------------------- */
+
+/* Baskerville display headings */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+/* copper squiggle underline used under the active nav item */
+.squiggle {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='6' viewBox='0 0 40 6'%3E%3Cpath d='M0 3 Q5 0 10 3 T20 3 T30 3 T40 3' fill='none' stroke='%23ba6a4c' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: bottom;
+  background-size: 20px 6px;
+  padding-bottom: 8px;
+}

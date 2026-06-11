@@ -4,18 +4,23 @@ import Image from "next/image";
 // carousel slides). Static render of one slide per band; arrows/dots are
 // decorative to mirror the source's UIkit slideshow chrome.
 export function CaptionBand({
+  id,
   image,
   alt,
   caption,
   subcaption,
 }: {
+  id?: string;
   image: string;
   alt: string;
   caption: React.ReactNode;
   subcaption?: React.ReactNode;
 }) {
   return (
-    <section className="relative isolate flex min-h-[560px] items-center justify-center overflow-hidden">
+    <section
+      id={id}
+      className="relative isolate flex min-h-[560px] scroll-mt-32 items-center justify-center overflow-hidden"
+    >
       <Image src={image} alt={alt} fill sizes="100vw" className="-z-10 object-cover" />
       <div className="absolute inset-0 -z-10 bg-black/10" />
 

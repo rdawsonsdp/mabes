@@ -1,34 +1,36 @@
 import Image from "next/image";
 import { ORDER_HREF, PHONE_DISPLAY, PHONE_HREF } from "./ContactBar";
+import { OpenToday } from "./OpenToday";
 
+// Food-first hero: the sandwich is the headline. One primary action (Order
+// Online), a scroll cue to the featured items, and an open-today chip for
+// urgency.
 export function Hero() {
   return (
     <section className="relative isolate overflow-hidden">
       <Image
-        src="/img/food-4984.jpg"
-        alt="Made-to-order sandwich at Mabe's Sandwich Shop"
+        src="/img/menu-photo.jpg"
+        alt="Grilled turkey panini stacked high at Mabe's Sandwich Shop"
         fill
         priority
         sizes="100vw"
         className="-z-10 object-cover"
       />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
 
-      <div className="mx-auto flex max-w-[1280px] flex-col gap-6 px-6 py-28 md:py-40">
+      <div className="mx-auto flex max-w-[1280px] flex-col gap-6 px-6 py-24 md:py-36">
+        <OpenToday />
+
         <h1 className="font-display max-w-2xl text-h1 leading-[1.05] text-cream md:text-hero">
-          Welcome to Mabe&apos;s Sandwich Shop
+          Hot Off the Press, Made to Order
         </h1>
-        <div className="max-w-xl space-y-5 text-cream/90">
-          <p>
-            Our menu is inspired by our family, our love for Chicago, and our love for food.
-          </p>
-          <p>
-            Made-to-order sandwiches, salads, and smoothies served fresh daily — your neighborhood
-            sandwich shop on East 75th Street.
-          </p>
-        </div>
+        <p className="max-w-xl text-h4 leading-snug text-cream/90">
+          Jerk turkey paninis, double-decker clubs, fresh salads &amp; smoothies — made fresh the
+          moment you order, right here on East 75th.
+        </p>
+
         <div className="mt-2 flex flex-col gap-3">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
             <a
               href={ORDER_HREF}
               target="_blank"
@@ -38,13 +40,22 @@ export function Hero() {
               Order Online
             </a>
             <a
+              href="#favorites"
+              className="font-display rounded-pill border border-cream/70 px-8 py-4 text-body tracking-widest text-cream transition-colors hover:border-copper hover:text-copper"
+            >
+              See the Favorites ↓
+            </a>
+            <a
               href={PHONE_HREF}
               className="font-display text-small tracking-widest text-cream underline-offset-4 hover:underline"
             >
               or call {PHONE_DISPLAY}
             </a>
           </div>
-          <p className="text-small text-cream/80">Pickup or delivery — opens our online ordering</p>
+          <p className="text-small text-cream/80">
+            Pickup or delivery · ready in minutes · 10% off your first online order with code
+            MASAVE10
+          </p>
         </div>
       </div>
     </section>

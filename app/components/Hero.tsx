@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ORDER_HREF } from "./ContactBar";
+import { ORDER_HREF, PHONE_DISPLAY, PHONE_HREF } from "./ContactBar";
 
 export function Hero() {
   return (
@@ -27,15 +27,24 @@ export function Hero() {
             sandwich shop on East 75th Street.
           </p>
         </div>
-        <div>
-          <a
-            href={ORDER_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-display mt-2 inline-block border border-cream px-8 py-3 text-small tracking-widest text-cream transition-colors hover:bg-cream hover:text-maroon"
-          >
-            Order Online
-          </a>
+        <div className="mt-2 flex flex-col gap-3">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <a
+              href={ORDER_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-display rounded-pill bg-cream px-10 py-4 text-body tracking-widest text-maroon shadow-float transition-colors hover:bg-copper hover:text-cream"
+            >
+              Order Online
+            </a>
+            <a
+              href={PHONE_HREF}
+              className="font-display text-small tracking-widest text-cream underline-offset-4 hover:underline"
+            >
+              or call {PHONE_DISPLAY}
+            </a>
+          </div>
+          <p className="text-small text-cream/80">Pickup or delivery — opens our online ordering</p>
         </div>
       </div>
     </section>

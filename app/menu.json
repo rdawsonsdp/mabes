@@ -1,269 +1,114 @@
-[
- {
-  "title": "Breakfast Sandwiches",
-  "items": [
-   {
-    "name": "T-BLT",
-    "desc": "Turkey bacon, lettuce, tomato, and mayo on grilled wheat toast.",
-    "price": ""
-   },
-   {
-    "name": "Turkey Cristo",
-    "desc": "Hand made with Turkey breast, Swiss, American cheese, battered and deep fried, served with side of preserves.",
-    "price": ""
-   },
-   {
-    "name": "Croissant breakfast sandwich",
-    "desc": "Choice of turkey bacon, or turkey sausage. cheese, and egg",
-    "price": ""
-   },
-   {
-    "name": "Breakfast chicken club",
-    "desc": "Jerk or seasoned grilled chicken, spinach, tomato, cheddar, Swiss, and fried egg.",
-    "price": ""
-   },
-   {
-    "name": "Breakfast special",
-    "desc": "Turkey bacon or sausage, 2 eggs, breakfast potatoes, and wheat toast.",
-    "price": ""
-   },
-   {
-    "name": "French toast breakfast sandwich",
-    "desc": "Texas toast dipped in our homemade egg custard, grilled until golden. Fried egg, choice of turkey bacon or turkey sausage served with our homemade buttermilk syrup.",
-    "price": ""
-   }
+{
+  "menus": [
+    {
+      "name": "Breakfast Menu",
+      "note": "Served weekdays from 9 AM – 12 PM",
+      "sections": [
+        {
+          "title": "Breakfast Sandwiches",
+          "items": [
+            { "name": "T-BLT", "price": "$9.00", "desc": "Turkey bacon, lettuce, tomato, and mayo on grilled wheat toast." },
+            { "name": "Turkey Cristo", "price": "$16.00", "desc": "Hand made with Turkey breast, Swiss, American cheese, battered and deep fried, served with side of preserves." },
+            { "name": "Croissant breakfast sandwich", "price": "$9.00", "desc": "Choice of turkey bacon, or turkey sausage. Cheese, and egg." },
+            { "name": "Breakfast chicken club", "price": "$13.00", "desc": "Jerk or seasoned grilled chicken, spinach, tomato, cheddar, Swiss, and fried egg." },
+            { "name": "Breakfast special", "price": "$10.00", "desc": "Turkey bacon or sausage, 2 eggs, breakfast potatoes, and wheat toast." },
+            { "name": "French toast breakfast sandwich", "price": "$15.00", "desc": "Texas toast dipped in our homemade egg custard, grilled until golden. Fried egg, choice of turkey bacon or turkey sausage served with our homemade buttermilk syrup." }
+          ]
+        },
+        {
+          "title": "Breakfast Bowls",
+          "items": [
+            { "name": "Breakfast scrambler", "price": "$12.00", "desc": "Diced turkey sausage, onions, green peppers served over breakfast potatoes, and topped with scrambled eggs with cheddar cheese. Extra vegetables .75 each." }
+          ]
+        },
+        {
+          "title": "Breakfast Treats",
+          "items": [
+            { "name": "French toast", "price": "$7.00", "desc": "Homemade custard dipped Texas toast. Made with eggs, milk, and sugar." },
+            { "name": "Banana Nut oatmeal", "price": "$6.00", "desc": "Oatmeal topped with bananas, and walnuts. Served with a slice of toast." },
+            { "name": "Breakfast Potatoes", "price": "$5.00", "desc": "Southern potatoes, onions, and peppers." }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lunch Menu",
+      "sections": [
+        {
+          "title": "Sandwiches / Wraps",
+          "note": "All sandwiches are made Panini style unless otherwise requested — have it as a sandwich or a wrap. Make it a combo with chips and a drink for $2 more, add chicken noodle soup for $3.50, turkey chili for $4.50, or any smoothie for $5.",
+          "items": [
+            { "name": "Turkey Burger Bites", "price": "$13.00", "desc": "4 handmade turkey burger bites with sauce, served with fries." },
+            { "name": "Turkey Cristo", "price": "$17.00", "desc": "Hand made with Turkey breast, Swiss, American cheese, battered and deep fried, served with side of preserves." },
+            { "name": "DJ's Jerk Turkey Panini", "price": "$11.00", "desc": "Turkey breast with jerk sauce served with turkey bacon, red onion, spinach, Swiss cheese, roasted red pepper mayo on Panini bread." },
+            { "name": "Mabe's Double Decker Turkey Club", "price": "$11.50", "desc": "Seasoned turkey breast, turkey bacon, herb mayo, lettuce, and your choice of cheese." },
+            { "name": "The Blue Fish", "price": "$9.75", "desc": "Tuna salad sandwich with Pepper Jack cheese on Texas toast." },
+            { "name": "Lemon Dill Salmon Roll", "price": "$9.50", "desc": "New England-style lobster roll inspired — Mabe's baked salmon mixed with red onion and loaded into a toasted New England bun with spinach, topped with locally grown dill weed. Salmon Roll Combo $16.00." },
+            { "name": "Blackened Greek Chicken Wrap", "price": "$14.00", "desc": "Blackened chicken, mixed greens, diced tomatoes, bell peppers, cucumbers, red onion, giardiniera peppers and feta cheese wrapped into a spinach or tomato basil wrap." },
+            { "name": "Mabe's Flip", "price": "$7.75", "desc": "Our version of the chicken quesadilla. Grilled chicken, shredded cheese, onions, and peppers. Select spinach or tomato basil tortilla shell." },
+            { "name": "Devin's Buffalo Chicken Wrap", "price": "$11.75", "desc": "Spicy buffalo chicken, turkey bacon, mixed greens, onions, tomato, ranch dressing, Pepper Jack cheese." },
+            { "name": "Grilled Veggie Sandwich", "price": "$9.00", "desc": "You'll love this even if you're not a vegetarian! Grilled bell peppers, onions, sweet potato on multigrain with fresh spinach, avocado and a side of vegan garlic dill sauce." },
+            { "name": "Chickpea Tuna Sandwich (Vegan)", "price": "$9.00", "desc": "Mabe's vegan tuna twist! Chickpeas mixed with vegan mayo, pickled relish and onions, served on multigrain bread with fresh spinach." },
+            { "name": "Grilled Veggie Wrap", "price": "$9.50", "desc": "Grilled bell peppers, onions, sweet potato wrapped into a spinach tortilla with fresh spinach, avocado and a side of vegan garlic dill sauce." },
+            { "name": "Salmon wrap", "price": "$14.00", "desc": "Grilled salmon, mixed greens, tomatoes, red onions, and Pepper Jack cheese." },
+            { "name": "Jerk salmon Panini", "price": "$14.00", "desc": "Grilled salmon with jerk sauce served with red onion, spinach, Swiss cheese, roasted red pepper mayo on Panini bread." },
+            { "name": "Corn beef", "price": "$12.00", "desc": "Corned beef sandwich on marble rye with sauerkraut, Swiss cheese, and Mabe's sauce." }
+          ]
+        },
+        {
+          "title": "Salads",
+          "note": "Add extra meat to any salad for $2.00. Salmon $7 additional.",
+          "items": [
+            { "name": "Chicken Caesar Salad", "price": "$10.75", "desc": "Grilled chicken, mixed greens, croutons, Parmesan cheese, and Caesar dressing." },
+            { "name": "Salmon Salad", "price": "$16.00", "desc": "Grilled seasoned salmon atop mixed greens, tomatoes, red onions, cucumbers, feta cheese and choice of dressing." },
+            { "name": "Blackened Greek Chicken Salad", "price": "$15.00", "desc": "Blackened chicken atop mixed greens, diced tomatoes, bell peppers, cucumbers, red onion, giardiniera peppers and feta cheese." },
+            { "name": "Blackened Greek Shrimp Salad", "price": "$18.00", "desc": "Blackened shrimp atop mixed greens, diced tomatoes, bell peppers, cucumbers, red onion, giardiniera peppers and feta cheese. Topped with Italian seasoning and served with raspberry vinaigrette." },
+            { "name": "Grilled Chicken Salad", "price": "$15.00", "desc": "Grilled chicken atop mixed lettuce greens with chopped walnuts, raisins, green peppers, onions, tomatoes, and cucumber." }
+          ]
+        },
+        {
+          "title": "Sweets",
+          "items": [
+            { "name": "Fresh baked chocolate chip cookies (6)", "price": "$6.00", "desc": "" },
+            { "name": "Oatmeal raisin cookies (6)", "price": "$6.00", "desc": "" },
+            { "name": "Peach cobbler", "price": "$6.00", "desc": "Homemade peach cobbler. Good to the last bite!" },
+            { "name": "Butter pound cake", "price": "$6.00", "desc": "Homemade southern butter pound cake." }
+          ]
+        },
+        {
+          "title": "Smoothies",
+          "note": "Regular $8.00. Add a protein shot or extra fruit for $1.00.",
+          "items": [
+            { "name": "Berry", "desc": "Mixed berries, fruit juice, flavored syrup." },
+            { "name": "Orange Dreamsicle", "desc": "Non-fat Greek yogurt, mangos, orange juice, vanilla syrup." },
+            { "name": "Strawberry Banana", "desc": "Strawberries, bananas, non-fat Greek yogurt, honey." },
+            { "name": "Mabe's Green Machine", "desc": "Almond milk, spinach, pineapple, honey, and pear." },
+            { "name": "Peanut Butter & Banana", "desc": "Bananas, Greek yogurt, peanut butter, almond milk, and honey." }
+          ]
+        },
+        {
+          "title": "Sides / Drinks",
+          "items": [
+            { "name": "Homemade Lemonade 32oz", "price": "$5.00", "desc": "" },
+            { "name": "Strawberry Homemade Lemonade 32oz", "price": "$6.00", "desc": "" }
+          ]
+        },
+        {
+          "title": "Soups and Chili",
+          "items": [
+            { "name": "Turkey Chili", "price": "Cup $5.00 · Bowl $6.50", "desc": "" },
+            { "name": "Chicken Noodle Soup", "price": "Cup $5.00 · Bowl $6.50", "desc": "" }
+          ]
+        },
+        {
+          "title": "Mabe's Kids",
+          "note": "Pick your favorite — includes drink and apple sauce — $6.00.",
+          "items": [
+            { "name": "Grilled Cheese", "desc": "Choice of cheese served on Texas toast." },
+            { "name": "PB&J", "desc": "Grape jelly and peanut butter served on wheat or white bread." }
+          ]
+        }
+      ]
+    }
   ]
- },
- {
-  "title": "Breakfast Bowls",
-  "items": [
-   {
-    "name": "Breakfast scrambler",
-    "desc": "Diced turkey sausage, onions, green peppers served over breakfast potatoes, and topped with scrambled eggs with cheddar cheese. Extra vegetables .75 each.",
-    "price": ""
-   }
-  ]
- },
- {
-  "title": "Breakfast Treats",
-  "items": [
-   {
-    "name": "French toast",
-    "desc": "Homemade custard dipped Texas toast. Made with eggs, milk, and sugar.",
-    "price": ""
-   },
-   {
-    "name": "Banana Nut oatmeal",
-    "desc": "Oatmeal topped with bananas, and walnuts. Served with a slice of toast",
-    "price": ""
-   },
-   {
-    "name": "Breakfast Potatoes",
-    "desc": "Southern potatoes, onions, and peppers",
-    "price": ""
-   }
-  ]
- },
- {
-  "title": "Sandwiches / Wraps",
-  "items": [
-   {
-    "name": "Turkey Burger Bites",
-    "desc": "4 handmade turkey burger bites with sauce, served with fries",
-    "price": ""
-   },
-   {
-    "name": "Turkey Cristo",
-    "desc": "Hand made with Turkey breast, Swiss, American cheese, battered and deep fried, served with side of preserves.",
-    "price": ""
-   },
-   {
-    "name": "DJ's Jerk Turkey Panini",
-    "desc": "Turkey breast with jerk sauce served with turkey bacon, red onion, spinach, Swiss cheese, roasted red pepper mayo on Panini bread",
-    "price": ""
-   },
-   {
-    "name": "Mabe's Double Decker Turkey Club",
-    "desc": "Seasoned turkey breast, turkey bacon, herb mayo, lettuce, and your choice of cheese",
-    "price": ""
-   },
-   {
-    "name": "The Blue Fish",
-    "desc": "Tuna Salad Sandwich with Pepper Jack Cheese on Texas Toast",
-    "price": ""
-   },
-   {
-    "name": "Lemon Dill Salmon Roll",
-    "desc": "England Style Lobster Roll inspired - Mabe's baked salmon mixed with red onion and loaded into a toasted New England bun with spinach, then topped off with locally grown dill weed",
-    "price": ""
-   },
-   {
-    "name": "Blackened Greek Chicken Wrap",
-    "desc": "Blackened Chicken, mixed greens, diced tomatoes, bell peppers, cucumbers, red onion, giardiniera peppers and feta cheese wrapped into a spinach or tomato basil wrap",
-    "price": ""
-   },
-   {
-    "name": "Mabe's Flip",
-    "desc": "Our version of the chicken quesadilla. Grilled chicken, shredded cheese, onions, and peppers. Select spinach or tomato basil tortilla shell",
-    "price": ""
-   },
-   {
-    "name": "Devin's Buffalo Chicken Wrap",
-    "desc": "Spicy buffalo chicken, turkey bacon, mixed greens, onions, tomato, ranch dressing, Pepper Jack cheese.",
-    "price": ""
-   },
-   {
-    "name": "Grilled Veggie Sandwich",
-    "desc": "You'll love this even if you're not a vegetarian! Grilled bell peppers, onions, sweet potato served on multigrain with fresh spinach, avocado and a side of vegan garlic dill sauce",
-    "price": ""
-   },
-   {
-    "name": "Chickpea Tuna Sandwich (Vegan)",
-    "desc": "Mabe's Vegan Tuna Twist! Chickpeas mixed with vegan mayo, pickled relish and onions - served on multigrain bread with fresh spinach",
-    "price": ""
-   },
-   {
-    "name": "Grilled Veggie Wrap",
-    "desc": "You'll love this even if you're not a vegetarian! Grilled bell peppers, onions, sweet potato wrapped into a spinach tortilla with fresh spinach, avocado and a side of vegan garlic dill sauce",
-    "price": ""
-   },
-   {
-    "name": "Salmon wrap",
-    "desc": "Grilled salmon, mixed greens, tomatoes, red onions, and Pepper Jack cheese",
-    "price": ""
-   },
-   {
-    "name": "Jerk salmon Panini",
-    "desc": "Grilled salmon with Jerk sauce served with red onion, spinach, Swiss cheese, roasted red pepper mayo on Panini bread",
-    "price": ""
-   },
-   {
-    "name": "Corn beef",
-    "desc": "Corned beef sandwich served on marble rye with sauerkraut, Swiss cheese, and Mabe's sauce",
-    "price": ""
-   },
-   {
-    "name": "Grilled Veggie Wrap",
-    "desc": "You'll love this even if you're not a vegetarian! Grilled bell peppers, onions, sweet potato served on a spinach wrap with fresh spinach, avocado and a side of vegan garlic dill sauce",
-    "price": ""
-   }
-  ]
- },
- {
-  "title": "Salads",
-  "items": [
-   {
-    "name": "Chicken Caesar Salad",
-    "desc": "Grilled chicken, mixed greens, croutons, Parmesan cheese, and Caesar dressing",
-    "price": ""
-   },
-   {
-    "name": "Salmon Salad",
-    "desc": "Grilled Seasoned Salmon placed atop mixed greens, tomatoes, red onions, cucumbers, feta cheese and choice of dressing",
-    "price": ""
-   },
-   {
-    "name": "Blackened Greek Chicken Salad",
-    "desc": "Blackened Chicken served atop a bed of mixed greens, diced tomatoes, bell peppers, cucumbers, red onion, giardiniera peppers and feta cheese",
-    "price": ""
-   },
-   {
-    "name": "Blackened Greek Shrimp Salad",
-    "desc": "Blackened Shrimp served on top of a bed of mixed greens, diced tomatoes, bell peppers, cucumbers, red onion, giardiniera peppers and feta cheese. Topped with Italian Seasoning and served with raspberry vinaigrette",
-    "price": ""
-   },
-   {
-    "name": "Grilled Chicken Salad",
-    "desc": "Grilled Chicken served atop a bed of mixed lettuce greens with chopped walnuts, raisins, green peppers. onions, tomatoes, and cucumber",
-    "price": ""
-   }
-  ]
- },
- {
-  "title": "Sweets",
-  "items": [
-   {
-    "name": "Fresh baked chocolate chip cookies /6",
-    "price": ""
-   },
-   {
-    "name": "Oatmeal raisin cookies /6",
-    "price": ""
-   },
-   {
-    "name": "Peach cobbler",
-    "desc": "Homemade peach cobbler. Good to the last bite!",
-    "price": ""
-   },
-   {
-    "name": "Butter pound cake",
-    "desc": "Homemade southern butter pound cake",
-    "price": ""
-   }
-  ]
- },
- {
-  "title": "Smoothies",
-  "items": [
-   {
-    "name": "Berry",
-    "desc": "Mixed berries, fruit juice, flavored syrup"
-   },
-   {
-    "name": "Orange Dreamsicle",
-    "desc": "Non-fat Greek yogurt, mangos, orange juice, vanilla syrup"
-   },
-   {
-    "name": "Strawberry Banana",
-    "desc": "Strawberries, bananas, non-fat Greek yogurt, honey"
-   },
-   {
-    "name": "Mabe's Green Machine",
-    "desc": "Almond milk, spinach, pineapple, honey, and pear"
-   },
-   {
-    "name": "Peanut Butter & Banana",
-    "desc": "Bananas, greek yogurt, peanut butter, almond milk, and honey"
-   }
-  ]
- },
- {
-  "title": "Sides / Drinks",
-  "items": [
-   {
-    "name": "Homemade Lemonade 32oz",
-    "price": ""
-   },
-   {
-    "name": "Strawberry homemade Lemonade 32oz",
-    "price": ""
-   }
-  ]
- },
- {
-  "title": "Soups and Chili",
-  "items": [
-   {
-    "name": "Turkey Chili",
-    "price": "Bowl"
-   },
-   {
-    "name": "Chicken Noodle Soup",
-    "price": "Bowl"
-   }
-  ]
- },
- {
-  "title": "Mabe's Kids",
-  "items": [
-   {
-    "name": "Grilled Cheese",
-    "desc": "Choice of cheese served on Texas toast"
-   },
-   {
-    "name": "PB&J",
-    "desc": "Grape jelly and peanut butter served on wheat or white bread"
-   }
-  ]
- }
-]
+}

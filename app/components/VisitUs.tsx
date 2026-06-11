@@ -50,7 +50,7 @@ export function VisitUs() {
             rel="noopener noreferrer"
             className="font-display mt-2 w-fit rounded-pill bg-maroon px-8 py-3 text-small tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon"
           >
-            Order Now!
+            Order Online
           </a>
         </div>
 

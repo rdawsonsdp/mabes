@@ -1,6 +1,7 @@
 import { PromoBar } from "./components/PromoBar";
 import { ContactBar } from "./components/ContactBar";
 import { CateringModal } from "./components/CateringModal";
+import { StickyOrderBar } from "./components/StickyOrderBar";
 import { Header } from "./components/Header";
 import { RuleHeading } from "./components/RuleHeading";
 import { Hero } from "./components/Hero";
@@ -52,6 +53,9 @@ export default function Home() {
         />
       </main>
       <Footer />
+      {/* spacer so the fixed mobile order bar doesn't cover the footer */}
+      <div aria-hidden className="h-[68px] lg:hidden" />
+      <StickyOrderBar />
       <CateringModal />
     </>
   );

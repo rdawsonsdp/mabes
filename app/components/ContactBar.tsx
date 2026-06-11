@@ -3,14 +3,20 @@ import { MapPin, Phone } from "./icons";
 export const PHONE_DISPLAY = "(773) 891-1798";
 export const PHONE_HREF = "tel:+17738911798";
 export const ADDRESS = "312 E 75th St, Chicago, IL 60619";
+export const EMAIL = "mabesdeli@gmail.com";
+export const HOURS = [
+  { days: "Monday – Thursday", time: "9 AM – 4 PM" },
+  { days: "Friday", time: "9 AM – 5 PM" },
+  { days: "Saturday", time: "10 AM – 3 PM" },
+  { days: "Sunday", time: "Closed" },
+];
 export const MAPS_HREF =
   "https://www.google.com/maps/search/?api=1&query=312+E+75th+St+Chicago+IL+60619";
 export const DIRECTIONS_HREF =
   "https://www.google.com/maps/dir/?api=1&destination=312+E+75th+St+Chicago+IL+60619";
 export const ORDER_HREF =
   "https://www.mabesss.com/online-ordering/mabes-kitchen/menu";
-// TODO: confirm the real catering inbox — Mabe's routes catering via a 3rd-party platform.
-export const CATERING_EMAIL = "catering@mabesss.com";
+export const CATERING_EMAIL = "mabesdeli@gmail.com";
 
 // Prominent top contact strip: address → Google Maps (new tab), directions, phone, Call button.
 export function ContactBar() {

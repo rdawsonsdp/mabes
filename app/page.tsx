@@ -4,7 +4,9 @@ import { CateringModal } from "./components/CateringModal";
 import { Header } from "./components/Header";
 import { RuleHeading } from "./components/RuleHeading";
 import { Hero } from "./components/Hero";
+import { VisitUs } from "./components/VisitUs";
 import { FeatureColumns } from "./components/FeatureColumns";
+import { Menus } from "./components/Menus";
 import { CaptionBand } from "./components/CaptionBand";
 import { Footer } from "./components/Footer";
 
@@ -17,7 +19,9 @@ export default function Home() {
       <main>
         <RuleHeading>Our Love Language Is Freshness</RuleHeading>
         <Hero />
+        <VisitUs />
         <FeatureColumns />
+        <Menus />
 
         <CaptionBand
           image="/img/sandwich-2.jpg"

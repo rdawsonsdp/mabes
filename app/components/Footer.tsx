@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Instagram } from "./icons";
-import { ORDER_HREF } from "./ContactBar";
 
 const COL_A = ["Hours & Location", "Menus", "Catering", "About"];
 const COL_B = ["We're Hiring", "Contact", "Gift Cards", "Store"];
@@ -43,12 +42,7 @@ export function Footer() {
             </ul>
           </div>
           <div className="flex flex-wrap gap-x-10 gap-y-3 text-small font-semibold text-ink">
-            <a
-              href={ORDER_HREF}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-copper"
-            >
+            <a href="#menus" className="hover:text-copper">
               Order Online
             </a>
             <a href="#catering" className="hover:text-copper">Inquire About Catering</a>

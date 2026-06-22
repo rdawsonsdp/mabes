@@ -10,21 +10,30 @@ import { MoreFromMabes } from "./components/MoreFromMabes";
 import { CaptionBand } from "./components/CaptionBand";
 import { VisitUs } from "./components/VisitUs";
 import { Footer } from "./components/Footer";
+import { CartProvider } from "./components/cart/CartProvider";
+import { CartDrawer } from "./components/cart/CartDrawer";
+import { catalog, groupByMenu } from "./lib/catalog/catalog";
+import { getCartAction } from "./lib/cart/actions";
 
-// Food-first homepage ordered by the LIFT framework: value prop + urgency in
-// the hero, featured items (relevance) before anything else, the full menu
-// next, then secondary conversions, story, and the trust info (hours, address,
-// phone) before the footer.
-export default function Home() {
+// Catalog + cart come from Supabase. Read on the server, then handed to the
+// client CartProvider so the whole page shares one cart and ordering happens
+// on-site. The DB is the source of truth (Clover sync comes later).
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const products = await catalog.getProducts();
+  const menus = groupByMenu(products);
+  const initialCart = await getCartAction();
+
   return (
-    <>
+    <CartProvider initialCart={initialCart}>
       <PromoBar />
       <ContactBar />
       <Header />
       <main>
         <Hero />
-        <FeaturedItems />
-        <Menus />
+        <FeaturedItems products={products} />
+        <Menus menus={menus} />
         <MoreFromMabes />
 
         <CaptionBand
@@ -42,6 +51,7 @@ export default function Home() {
       <div aria-hidden className="h-[68px] lg:hidden" />
       <StickyOrderBar />
       <CateringModal />
-    </>
+      <CartDrawer />
+    </CartProvider>
   );
 }

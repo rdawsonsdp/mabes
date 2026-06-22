@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ORDER_HREF, PHONE_DISPLAY, PHONE_HREF } from "./ContactBar";
+import { PHONE_DISPLAY, PHONE_HREF } from "./ContactBar";
 import { OpenToday } from "./OpenToday";
 
 // Food-first hero: the sandwich is the headline. One primary action (Order
@@ -32,9 +32,7 @@ export function Hero() {
         <div className="mt-2 flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
             <a
-              href={ORDER_HREF}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#menus"
               className="font-display rounded-pill bg-cream px-10 py-4 text-body tracking-widest text-maroon shadow-float transition-colors hover:bg-copper hover:text-cream"
             >
               Order Online

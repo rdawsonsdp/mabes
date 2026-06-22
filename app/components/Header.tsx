@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Close, Instagram, Menu, Phone } from "./icons";
-import { PHONE_DISPLAY, PHONE_HREF, ORDER_HREF } from "./ContactBar";
+import { PHONE_DISPLAY, PHONE_HREF } from "./ContactBar";
+import { CartButton } from "./cart/CartButton";
 
 const NAV = [
   { label: "Home", href: "/", active: true },
@@ -11,7 +12,7 @@ const NAV = [
   { label: "About", href: "#about" },
   { label: "Gift Cards", href: "#gift-cards" },
   { label: "Store", href: "#store" },
-  { label: "Order Online", href: ORDER_HREF, external: true },
+  { label: "Order Online", href: "#menus", cta: true },
 ];
 
 export function Header() {
@@ -29,12 +30,10 @@ export function Header() {
         {/* desktop nav */}
         <nav className="hidden flex-1 items-center justify-end gap-5 xl:gap-7 lg:flex">
           {NAV.map((item) =>
-            item.label === "Order Online" ? (
+            item.cta ? (
               <a
                 key={item.label}
                 href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="font-display rounded-pill bg-copper px-5 py-2 text-base uppercase tracking-widest text-maroon transition-colors hover:bg-maroon hover:text-cream"
               >
                 {item.label}
@@ -43,7 +42,6 @@ export function Header() {
               <a
                 key={item.label}
                 href={item.href}
-                {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className={`font-display text-lg tracking-wide transition-colors hover:text-copper xl:text-xl ${
                   item.active ? "squiggle text-copper" : "text-ink"
                 }`}
@@ -66,10 +64,12 @@ export function Header() {
             <Phone className="h-4 w-4" />
             <span>{PHONE_DISPLAY}</span>
           </a>
+          <CartButton className="ml-1" />
         </nav>
 
-        {/* mobile: call + hamburger */}
+        {/* mobile: cart + call + hamburger */}
         <div className="flex items-center gap-3 lg:hidden">
+          <CartButton />
           <a
             href={PHONE_HREF}
             aria-label="Call"
@@ -92,11 +92,10 @@ export function Header() {
       {/* mobile dropdown menu */}
       {open && (
         <nav className="flex flex-col border-t border-gray-100 bg-paper px-6 py-4 lg:hidden">
-          {NAV.filter((i) => i.label !== "Order Online").map((item) => (
+          {NAV.filter((i) => !i.cta).map((item) => (
             <a
               key={item.label}
               href={item.href}
-              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               onClick={() => setOpen(false)}
               className={`font-display border-b border-gray-100 py-3 text-xl tracking-wide transition-colors hover:text-copper ${
                 item.active ? "text-copper" : "text-ink"
@@ -106,9 +105,7 @@ export function Header() {
             </a>
           ))}
           <a
-            href={ORDER_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#menus"
             onClick={() => setOpen(false)}
             className="font-display mt-4 rounded-pill bg-maroon py-3 text-center text-base uppercase tracking-widest text-cream"
           >

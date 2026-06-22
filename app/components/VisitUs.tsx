@@ -1,13 +1,5 @@
 import { MapPin, Phone } from "./icons";
-import {
-  ADDRESS,
-  EMAIL,
-  HOURS,
-  MAPS_HREF,
-  PHONE_DISPLAY,
-  PHONE_HREF,
-  ORDER_HREF,
-} from "./ContactBar";
+import { ADDRESS, EMAIL, HOURS, MAPS_HREF, PHONE_DISPLAY, PHONE_HREF } from "./ContactBar";
 
 // Prominent "the info people look for" block: address, phone, email, hours,
 // and Order Now — placed high on the homepage.
@@ -45,9 +37,7 @@ export function VisitUs() {
           </a>
 
           <a
-            href={ORDER_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#menus"
             className="font-display mt-2 w-fit rounded-pill bg-maroon px-8 py-3 text-small tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon"
           >
             Order Online

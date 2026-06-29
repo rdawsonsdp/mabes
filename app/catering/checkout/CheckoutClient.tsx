@@ -155,6 +155,7 @@ export function CheckoutClient() {
       router.push("/catering/confirmation");
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
       setSubmitting(null);
     }
   }
@@ -347,6 +348,7 @@ export function CheckoutClient() {
                   <span className="font-display block text-h4 text-ink">{item.name}</span>
                   <span className="text-xs text-warm-gray">Qty {item.quantity} × {formatCents(item.unitPriceCents)} ea.</span>
                 </span>
+                <span className="font-display shrink-0 text-h4 text-ink">{formatCents(item.lineTotalCents)}</span>
               </li>
             ))}
           </ul>

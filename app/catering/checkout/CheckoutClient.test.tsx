@@ -5,19 +5,35 @@ import type { CateringCartState } from "@/app/lib/catering/types";
 const push = vi.fn();
 vi.mock("next/navigation", () => ({ useRouter: () => ({ push }) }));
 
-// Provide a populated cart via the mocked hook.
+// Two-item cart so no single line total equals the subtotal.
+// Item A: qty 1 @ $12.00 (lineTotal $12.00)
+// Item B: qty 1 @ $60.00 (lineTotal $60.00)
+// subtotal: $72.00
 const cart: CateringCartState = {
   items: [
     {
       lineId: "l1",
       productId: "p1",
-      productSlug: "catering-the-blue-fish-box",
-      name: "The Blue Fish Sandwich Box",
+      productSlug: "catering-fish-sandwich-box",
+      name: "Fish Sandwich Box",
       category: "Boxed Lunches",
       image: null,
-      quantity: 6,
+      quantity: 1,
       unitPriceCents: 1200,
-      lineTotalCents: 7200,
+      lineTotalCents: 1200,
+      selectedModifiers: [],
+      notes: null,
+    },
+    {
+      lineId: "l2",
+      productId: "p2",
+      productSlug: "catering-party-platter",
+      name: "Party Platter",
+      category: "Platters",
+      image: null,
+      quantity: 1,
+      unitPriceCents: 6000,
+      lineTotalCents: 6000,
       selectedModifiers: [],
       notes: null,
     },
@@ -26,7 +42,7 @@ const cart: CateringCartState = {
   eventDate: null,
   eventTime: null,
   subtotalCents: 7200,
-  itemCount: 6,
+  itemCount: 2,
 };
 const clear = vi.fn();
 vi.mock("@/app/components/catering/CateringCartProvider", () => ({
@@ -44,9 +60,14 @@ beforeEach(() => {
 import { CheckoutClient } from "./CheckoutClient";
 
 describe("CheckoutClient", () => {
-  it("renders the cart subtotal and step 1 (Details)", () => {
+  it("renders cart item names, per-item line totals, subtotal, and step 1 (Details)", () => {
     render(<CheckoutClient />);
-    expect(screen.getByText("The Blue Fish Sandwich Box")).toBeInTheDocument();
+    expect(screen.getByText("Fish Sandwich Box")).toBeInTheDocument();
+    expect(screen.getByText("Party Platter")).toBeInTheDocument();
+    // Per-item line totals (different from each other and from subtotal)
+    expect(screen.getByText("$12.00")).toBeInTheDocument();
+    expect(screen.getByText("$60.00")).toBeInTheDocument();
+    // Subtotal row — $72.00 appears only here (neither line total equals the subtotal)
     expect(screen.getByText("$72.00")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /contact/i })).toBeInTheDocument();
   });
@@ -78,6 +99,42 @@ describe("CheckoutClient", () => {
       "/api/catering/checkout",
       expect.objectContaining({ method: "POST" })
     ));
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body as string);
+    expect(body.isQuote).toBe(true);
+    expect(body.paymentNonce).toBeNull();
+
+    await waitFor(() => expect(push).toHaveBeenCalledWith("/catering/confirmation"));
+    expect(Storage.prototype.setItem).toHaveBeenCalledWith(
+      "mabes-last-catering-order",
+      JSON.stringify(orderRecord)
+    );
+  });
+
+  it("submits Place Order & Pay with isQuote:false and paymentNonce:null", async () => {
+    const orderRecord = { orderNumber: "MB-1043", isQuote: false, totalCents: 7938 };
+    fetchMock.mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, order: orderRecord }),
+    });
+
+    render(<CheckoutClient />);
+    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: "Connie Brown" } });
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: "c@example.com" } });
+    fireEvent.change(screen.getByLabelText(/phone/i), { target: { value: "773-555-0000" } });
+    fireEvent.change(screen.getByLabelText(/event date/i), { target: { value: "2030-01-10" } });
+    fireEvent.click(screen.getByRole("button", { name: /review order/i }));
+
+    // Step 2 → click Place Order & Pay
+    fireEvent.click(await screen.findByRole("button", { name: /place order & pay/i }));
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
+      "/api/catering/checkout",
+      expect.objectContaining({ method: "POST" })
+    ));
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body as string);
+    expect(body.isQuote).toBe(false);
+    expect(body.paymentNonce).toBeNull();
+
     await waitFor(() => expect(push).toHaveBeenCalledWith("/catering/confirmation"));
     expect(Storage.prototype.setItem).toHaveBeenCalledWith(
       "mabes-last-catering-order",

@@ -7,6 +7,7 @@ export interface Catalog {
   getProducts(): Promise<Product[]>;
   getProductById(id: string): Promise<Product | null>;
   getProductsBySlugs(slugs: string[]): Promise<Product[]>;
+  getCateringProducts(): Promise<Product[]>;
 }
 
 // One nested query pulls a product with its variants and modifier groups.
@@ -87,6 +88,7 @@ class SupabaseCatalog implements Catalog {
     const { data, error } = await getSupabase()
       .from("products")
       .select(SELECT)
+      .neq("menu", "catering")
       .eq("is_available", true)
       .order("sort_order", { ascending: true });
     if (error) throw new Error(`Catalog load failed: ${error.message}`);
@@ -110,6 +112,17 @@ class SupabaseCatalog implements Catalog {
       .select(SELECT)
       .in("slug", slugs);
     if (error) throw new Error(`Products load failed: ${error.message}`);
+    return (data ?? []).map((r) => mapProduct(r as Row));
+  }
+
+  async getCateringProducts(): Promise<Product[]> {
+    const { data, error } = await getSupabase()
+      .from("products")
+      .select(SELECT)
+      .eq("menu", "catering")
+      .eq("is_available", true)
+      .order("sort_order", { ascending: true });
+    if (error) throw new Error(`Catering catalog load failed: ${error.message}`);
     return (data ?? []).map((r) => mapProduct(r as Row));
   }
 }

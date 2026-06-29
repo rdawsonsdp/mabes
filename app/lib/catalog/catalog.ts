@@ -11,7 +11,7 @@ export interface Catalog {
 }
 
 // One nested query pulls a product with its variants and modifier groups.
-const SELECT = `
+export const SELECT = `
   id, slug, name, description, base_price_cents, menu, category, image, is_available, sort_order,
   product_variants ( id, name, price_cents, is_default, sort_order ),
   product_modifier_groups (
@@ -23,7 +23,7 @@ const SELECT = `
   )
 `;
 
-type Row = Record<string, unknown>;
+export type Row = Record<string, unknown>;
 
 const num = (v: unknown): number => (typeof v === "number" ? v : Number(v) || 0);
 const bySort = <T extends { sortOrder: number }>(a: T, b: T) => a.sortOrder - b.sortOrder;
@@ -63,7 +63,7 @@ function mapGroup(link: Row): ModifierGroup | null {
   };
 }
 
-function mapProduct(r: Row): Product {
+export function mapProduct(r: Row): Product {
   return {
     id: String(r.id),
     slug: String(r.slug),

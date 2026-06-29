@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:smoke": "BRAINTREE_SMOKE=1 vitest run app/lib/payment/braintree.smoke.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

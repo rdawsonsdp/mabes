@@ -56,10 +56,11 @@ export async function POST(request: Request) {
     }
 
     // R2 reconciliation: object-arg form (canonical signature in config.ts)
+    const effectiveTaxExempt = body.taxExempt === true && typeof body.taxExemptCertificateUrl === "string" && body.taxExemptCertificateUrl.length > 0;
     const totals = computeCateringTotals({
       subtotalCents: priced.subtotalCents,
       fulfillment: body.fulfillmentType,
-      taxExempt: body.taxExempt,
+      taxExempt: effectiveTaxExempt,
     });
 
     const orderNumber = await generateOrderNumber();
@@ -89,7 +90,7 @@ export async function POST(request: Request) {
       deliveryFeeCents: totals.deliveryFeeCents,
       taxCents: totals.taxCents,
       totalCents: totals.totalCents,
-      taxExempt: body.taxExempt,
+      taxExempt: effectiveTaxExempt,
       taxExemptCertificateUrl: body.taxExemptCertificateUrl ?? null,
       paymentProvider: "braintree",
       paymentTransactionId: null,

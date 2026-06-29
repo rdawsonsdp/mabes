@@ -149,4 +149,12 @@ describe("POST /api/catering/checkout", () => {
     expect(res.status).toBe(200);
     expect((await res.json()).success).toBe(true);
   });
+
+  it("does NOT waive tax when taxExempt is true but no certificate URL is present", async () => {
+    const { POST } = await import("./route");
+    const res = await POST(req(input({ taxExempt: true, taxExemptCertificateUrl: null })));
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.order.taxCents).toBeGreaterThan(0); // tax still charged without a cert
+  });
 });

@@ -29,7 +29,7 @@ export function CateringStore({ menus }: { menus: MenuGroup[] }) {
         className="relative overflow-hidden bg-maroon px-4 py-16 text-cream"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(123,37,37,0.80), rgba(45,36,36,0.82)), url('/img/catering/catering-hero.avif')",
+            "linear-gradient(rgba(123,37,37,0.45), rgba(45,36,36,0.55)), url('/img/catering/catering-hero.avif')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

@@ -38,10 +38,10 @@ export function Hero() {
               Order Online
             </a>
             <a
-              href="#favorites"
+              href="/catering/menu"
               className="font-display rounded-pill border border-cream/70 px-8 py-4 text-body tracking-widest text-cream transition-colors hover:border-copper hover:text-copper"
             >
-              See the Favorites ↓
+              Order Catering
             </a>
             <a
               href={PHONE_HREF}

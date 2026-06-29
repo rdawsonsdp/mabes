@@ -46,17 +46,10 @@ export function ContactBar() {
         <div className="flex items-center gap-4">
           <a
             href={PHONE_HREF}
-            className="hidden items-center gap-2 transition-colors hover:text-copper sm:flex"
+            className="flex items-center gap-2 transition-colors hover:text-copper"
           >
             <Phone className="h-5 w-5 text-copper" />
             <span className="font-display text-h4 tracking-wide">{PHONE_DISPLAY}</span>
-          </a>
-          <a
-            href={PHONE_HREF}
-            className="font-display inline-flex items-center gap-2 rounded-pill bg-maroon px-5 py-2.5 text-small tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon"
-          >
-            <Phone className="h-4 w-4" />
-            Call Now
           </a>
         </div>
       </div>

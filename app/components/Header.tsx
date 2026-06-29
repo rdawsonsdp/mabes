@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Close, Instagram, Menu, Phone } from "./icons";
-import { PHONE_DISPLAY, PHONE_HREF } from "./ContactBar";
+import { PHONE_HREF } from "./ContactBar";
 import { CartButton } from "./cart/CartButton";
 
 type NavItem = {
@@ -67,13 +67,6 @@ export function Header() {
             className="text-copper transition-colors hover:text-maroon"
           >
             <Instagram className="h-[18px] w-[18px]" />
-          </a>
-          <a
-            href={PHONE_HREF}
-            className="font-display inline-flex items-center gap-2 rounded-pill bg-maroon px-4 py-2 text-small tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon"
-          >
-            <Phone className="h-4 w-4" />
-            <span>{PHONE_DISPLAY}</span>
           </a>
           <CartButton className="ml-1" />
         </nav>

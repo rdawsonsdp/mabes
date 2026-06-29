@@ -60,5 +60,5 @@ export async function listCateringOrders(
   if (opts.status) query = query.eq("status", opts.status);
   const { data, error } = await query;
   if (error) throw new Error(`Catering orders load failed: ${error.message}`);
-  return (data ?? []).map((r) => mapCateringOrderRow(r as Row));
+  return (data ?? []).map((r) => mapCateringOrderRow(r as unknown as Row));
 }

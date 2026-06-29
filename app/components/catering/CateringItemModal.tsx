@@ -26,10 +26,11 @@ function defaultSelection(product: Product): Set<string> {
     if (g.selectionType === "single" && g.minSelect >= 1) {
       const def = g.modifiers.find((m) => m.isDefault) ?? g.modifiers[0];
       if (def) selected.add(def.id);
-    } else {
+    } else if (g.selectionType === "single") {
       const def = g.modifiers.find((m) => m.isDefault);
       if (def) selected.add(def.id);
     }
+    // multi-select groups never auto-select — the user must make all choices.
   }
   return selected;
 }

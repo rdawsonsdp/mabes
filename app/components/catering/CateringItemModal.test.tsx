@@ -43,6 +43,23 @@ const trayProduct: Product = {
   ],
 };
 
+const trayWithDefaultProduct: Product = {
+  id: "p-tray-default", slug: "catering-tray-with-default", name: "Tray With Default",
+  description: "Choice of 2 sandwich types.", basePriceCents: 12_500,
+  menu: "catering", category: "Trays", image: null, isAvailable: true, sortOrder: 0,
+  variants: [],
+  modifierGroups: [
+    {
+      id: "g-pick2-default", name: "Select 2 types", selectionType: "multiple", minSelect: 2, maxSelect: 2, sortOrder: 0,
+      modifiers: [
+        { id: "t1-default", name: "Turkey Club", priceCents: 0, isDefault: true, sortOrder: 0 },
+        { id: "t2-default", name: "Blue Fish", priceCents: 0, isDefault: false, sortOrder: 1 },
+        { id: "t3-default", name: "Veggie", priceCents: 0, isDefault: false, sortOrder: 2 },
+      ],
+    },
+  ],
+};
+
 function renderModal(product: Product) {
   return render(
     <CateringCartProvider>
@@ -85,5 +102,18 @@ describe("CateringItemModal", () => {
     await user.click(screen.getByLabelText("Blue Fish"));
     await user.click(screen.getByLabelText("Veggie")); // ignored — at max
     expect((screen.getByLabelText("Veggie") as HTMLInputElement).checked).toBe(false);
+  });
+
+  it("never preselects a multi-select group even when a modifier has isDefault: true", async () => {
+    const user = userEvent.setup();
+    renderModal(trayWithDefaultProduct);
+    // The first modifier has isDefault: true, but multi-select must not auto-select
+    expect((screen.getByLabelText("Turkey Club") as HTMLInputElement).checked).toBe(false);
+    expect((screen.getByLabelText("Blue Fish") as HTMLInputElement).checked).toBe(false);
+    expect((screen.getByLabelText("Veggie") as HTMLInputElement).checked).toBe(false);
+    // Clicking Add with 0 selections should show validation error
+    await user.click(screen.getByRole("button", { name: /Add to Order/i }));
+    expect(screen.getByRole("alert")).toHaveTextContent(/pick 2|exactly 2/i);
+    expect(screen.getByTestId("count").textContent).toBe("0");
   });
 });

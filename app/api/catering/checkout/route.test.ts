@@ -1,6 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { Product } from "@/app/lib/types";
 
+vi.mock("@/app/lib/payment/run-payment", () => ({
+  chargeCateringOrder: vi.fn(),
+}));
+import { chargeCateringOrder } from "@/app/lib/payment/run-payment";
+
 const product: Product = {
   id: "p1",
   slug: "catering-the-blue-fish-box",
@@ -132,14 +137,28 @@ describe("POST /api/catering/checkout", () => {
     expect((await res.json()).error).toMatch(/address/i);
   });
 
-  it("paid path (paymentNonce present) persists pending_payment", async () => {
+  it("paid path charges and persists paid/settled", async () => {
+    (chargeCateringOrder as any).mockResolvedValue({
+      ok: true, paymentProvider: "braintree", paymentTransactionId: "txn_1",
+      paymentStatus: "settled", orderStatus: "paid",
+    });
     const { POST } = await import("./route");
     const res = await POST(req(input({ isQuote: false, paymentNonce: "fake-nonce" })));
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body.order.isQuote).toBe(false);
-    expect(body.order.status).toBe("pending_payment");
-    expect(body.order.paymentStatus).toBe("none");
+    expect(body.order.status).toBe("paid");
+    expect(body.order.paymentStatus).toBe("settled");
+    expect(body.order.paymentTransactionId).toBe("txn_1");
+  });
+
+  it("declined card returns 402 and inserts nothing", async () => {
+    (chargeCateringOrder as any).mockResolvedValue({
+      ok: false, paymentProvider: "braintree", paymentTransactionId: null,
+      paymentStatus: "failed", orderStatus: "cancelled", error: "Your card was declined.",
+    });
+    const { POST } = await import("./route");
+    const res = await POST(req(input({ isQuote: false, paymentNonce: "bad-nonce" })));
+    expect(res.status).toBe(402);
   });
 
   it("still succeeds when email sending throws (non-blocking)", async () => {

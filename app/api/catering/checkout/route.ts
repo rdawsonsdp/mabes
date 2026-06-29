@@ -6,10 +6,12 @@ import { insertCateringOrder } from "@/app/lib/catering/orders";
 import { sendCateringCustomerEmail } from "@/app/lib/email/catering-customer-template";
 import { sendCateringStaffEmail } from "@/app/lib/email/catering-staff-template";
 import { meetsMinimum, earliestEventDate, CATERING_LEAD_TIME_DAYS } from "@/app/lib/catering/config";
+import { chargeCateringOrder } from "@/app/lib/payment/run-payment";
 import type {
   CateringOrderInput,
   CateringOrderRecord,
   CateringOrderStatus,
+  CateringPaymentStatus,
 } from "@/app/lib/catering/types";
 
 function bad(error: string, status = 400) {
@@ -66,15 +68,31 @@ export async function POST(request: Request) {
     const orderNumber = await generateOrderNumber();
 
     // ---- status / payment by path ----
-    // Quote path: no payment. Paid path: pending_payment until Phase 5 (Braintree)
-    // captures the transaction and flips this to paid/settled.
-    const status: CateringOrderStatus = body.isQuote
-      ? "quote_requested"
-      : "pending_payment";
+    let orderStatus: CateringOrderStatus = "quote_requested";
+    let paymentStatus: CateringPaymentStatus = "none";
+    let paymentTransactionId: string | null = null;
+    const paymentProvider = "braintree";
+
+    if (!body.isQuote) {
+      if (!body.paymentNonce) {
+        return bad("Missing payment details.");
+      }
+      const charge = await chargeCateringOrder({
+        amountCents: totals.totalCents,
+        paymentNonce: body.paymentNonce,
+        orderRef: orderNumber,
+      });
+      if (!charge.ok) {
+        return NextResponse.json({ error: charge.error ?? "Payment was declined." }, { status: 402 });
+      }
+      orderStatus = charge.orderStatus;
+      paymentStatus = charge.paymentStatus;
+      paymentTransactionId = charge.paymentTransactionId;
+    }
 
     const record = await insertCateringOrder({
       orderNumber,
-      status,
+      status: orderStatus,
       isQuote: body.isQuote,
       customerName: body.customer.name.trim(),
       customerEmail: body.customer.email.trim(),
@@ -92,9 +110,9 @@ export async function POST(request: Request) {
       totalCents: totals.totalCents,
       taxExempt: effectiveTaxExempt,
       taxExemptCertificateUrl: body.taxExemptCertificateUrl ?? null,
-      paymentProvider: "braintree",
-      paymentTransactionId: null,
-      paymentStatus: "none",
+      paymentProvider,
+      paymentTransactionId,
+      paymentStatus,
       items: priced.items,
       adminNotes: null,
     });

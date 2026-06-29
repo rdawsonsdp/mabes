@@ -210,24 +210,48 @@ export function CateringItemModal({
         </div>
 
         {/* footer: qty + add */}
-        <div className="flex items-center gap-3 border-t border-copper/20 p-5">
-          <div className="flex items-center gap-3 rounded-pill border border-copper/40 px-2 py-1.5">
-            <button
-              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              aria-label="Decrease quantity"
-              className="rounded-full p-1 text-maroon transition-colors hover:bg-cream disabled:opacity-40"
-              disabled={quantity <= 1}
+        <div className="flex items-end gap-3 border-t border-copper/20 p-5">
+          <div className="flex flex-col">
+            <label
+              htmlFor="catering-qty"
+              className="font-display text-[11px] uppercase tracking-widest text-copper"
             >
-              <Minus className="h-4 w-4" />
-            </button>
-            <span className="w-5 text-center font-display text-ink">{quantity}</span>
-            <button
-              onClick={() => setQuantity((q) => Math.min(99, q + 1))}
-              aria-label="Increase quantity"
-              className="rounded-full p-1 text-maroon transition-colors hover:bg-cream"
-            >
-              <Plus className="h-4 w-4" />
-            </button>
+              {product.category === "Boxed Lunches" || product.category === "Wraps"
+                ? "Number of people"
+                : "Quantity"}
+            </label>
+            <div className="mt-1 flex items-center gap-2 rounded-pill border border-copper/40 px-2 py-1">
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                aria-label="Decrease quantity"
+                className="rounded-full p-1 text-maroon transition-colors hover:bg-cream disabled:opacity-40"
+                disabled={quantity <= 1}
+              >
+                <Minus className="h-4 w-4" />
+              </button>
+              <input
+                id="catering-qty"
+                type="number"
+                min={1}
+                max={99}
+                value={quantity}
+                onChange={(e) => {
+                  const n = parseInt(e.target.value, 10);
+                  setQuantity(Number.isNaN(n) ? 1 : Math.min(99, Math.max(1, n)));
+                }}
+                aria-label="Number of people"
+                className="w-12 bg-transparent text-center font-display text-ink outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              />
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => Math.min(99, q + 1))}
+                aria-label="Increase quantity"
+                className="rounded-full p-1 text-maroon transition-colors hover:bg-cream"
+              >
+                <Plus className="h-4 w-4" />
+              </button>
+            </div>
           </div>
           <button
             onClick={handleAdd}

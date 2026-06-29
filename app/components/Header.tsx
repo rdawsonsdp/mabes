@@ -18,8 +18,6 @@ const NAV: NavItem[] = [
   { label: "Menus", href: "#menus" },
   { label: "Catering", href: "/catering/menu" },
   { label: "About", href: "#about" },
-  { label: "Gift Cards", href: "#gift-cards" },
-  { label: "Store", href: "#store" },
   { label: "Order Catering", href: "/catering/menu", cta: true, variant: "catering" },
   { label: "Order Online", href: "#menus", cta: true },
 ];

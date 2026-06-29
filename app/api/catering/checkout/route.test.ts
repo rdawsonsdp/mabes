@@ -44,8 +44,8 @@ function lineItem(qty = 6) {
     category: "Boxed Lunches",
     image: null,
     quantity: qty,
-    unitPriceCents: 1200,
-    lineTotalCents: 1200 * qty,
+    unitPriceCents: 9999,
+    lineTotalCents: 9999 * qty,
     selectedModifiers: [],
     notes: null,
   };
@@ -98,6 +98,7 @@ describe("POST /api/catering/checkout", () => {
     expect(body.order.orderNumber).toBe("MB-1042");
     expect(body.order.isQuote).toBe(true);
     expect(body.order.status).toBe("quote_requested");
+    expect(body.order.paymentStatus).toBe("none");
     // Server-recomputed totals: subtotal 7200, pickup fee 0, tax 738
     expect(body.order.subtotalCents).toBe(7200);
     expect(body.order.deliveryFeeCents).toBe(0);

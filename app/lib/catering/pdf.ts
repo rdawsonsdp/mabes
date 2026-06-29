@@ -212,7 +212,7 @@ export function buildCateringOrderPdf(order: CateringOrderRecord): Uint8Array {
 // Browser convenience: trigger a file download from the bytes.
 export function downloadCateringOrderPdf(order: CateringOrderRecord): void {
   const bytes = buildCateringOrderPdf(order);
-  const blob = new Blob([bytes], { type: "application/pdf" });
+  const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;

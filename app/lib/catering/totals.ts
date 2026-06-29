@@ -30,6 +30,19 @@ export function repriceItems(
       return { name: m.name, priceCents: m.priceCents };
     });
 
+    // Enforce each linked modifier group's min/max against the selected count.
+    for (const group of product.modifierGroups) {
+      const count = item.selectedModifiers.filter((m) => m.groupId === group.id).length;
+      const min = group.minSelect ?? 0;
+      const max = group.maxSelect; // null = unlimited
+      if (count < min || (max != null && count > max)) {
+        const want = max != null && max === min ? `${min}` : max != null ? `${min}–${max}` : `${min}+`;
+        throw new Error(
+          `Invalid selection for "${product.name}": "${group.name}" requires ${want} option(s), got ${count}.`
+        );
+      }
+    }
+
     const base = product.basePriceCents ?? 0;
     const modTotal = selectedModifiers.reduce((sum, m) => sum + m.priceCents, 0);
     const unitPriceCents = base + modTotal;

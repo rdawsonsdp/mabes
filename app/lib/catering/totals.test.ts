@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { Product } from "@/app/lib/types";
+import type { Product, ModifierGroup } from "@/app/lib/types";
 import type { CateringCartItem } from "./types";
 import { repriceItems, computeCateringTotals } from "./totals";
 
@@ -100,5 +100,42 @@ describe("computeCateringTotals", () => {
     expect(t.deliveryFeeCents).toBe(15_000); // >= $1000 tier
     expect(t.taxCents).toBe(0);
     expect(t.totalCents).toBe(135_000);
+  });
+});
+
+// A tray product carrying the "pick 2 types" group (min 2 / max 2).
+const trayGroup: ModifierGroup = {
+  id: "g-pick2", name: "Select 2 types", selectionType: "multiple",
+  minSelect: 2, maxSelect: 2, sortOrder: 0,
+  modifiers: [
+    { id: "m1", name: "Turkey Club", priceCents: 0, isDefault: false, sortOrder: 0 },
+    { id: "m2", name: "Buffalo Chicken", priceCents: 0, isDefault: false, sortOrder: 1 },
+    { id: "m3", name: "Veggie", priceCents: 0, isDefault: false, sortOrder: 2 },
+  ],
+};
+const trayProduct: Product = {
+  id: "p-tray", slug: "catering-wrap-tray", name: "Mabe's Wrap Tray",
+  description: null, basePriceCents: 12500, menu: "catering", category: "Trays",
+  image: null, isAvailable: true, sortOrder: 0, variants: [], modifierGroups: [trayGroup],
+};
+const sel = (id: string) => ({ modifierId: id, groupId: "g-pick2", name: id, priceCents: 0 });
+const trayItem = (mods: ReturnType<typeof sel>[]): CateringCartItem => ({
+  lineId: "L1", productId: "p-tray", productSlug: "catering-wrap-tray",
+  name: "Mabe's Wrap Tray", category: "Trays", image: null, quantity: 1,
+  unitPriceCents: 12500, lineTotalCents: 12500, selectedModifiers: mods, notes: null,
+});
+
+describe("repriceItems modifier min/max enforcement", () => {
+  it("accepts exactly 2 selections for a pick-2 tray", () => {
+    const { subtotalCents } = repriceItems([trayItem([sel("m1"), sel("m2")])], [trayProduct]);
+    expect(subtotalCents).toBe(12500);
+  });
+  it("rejects fewer than min (1 of 2)", () => {
+    expect(() => repriceItems([trayItem([sel("m1")])], [trayProduct]))
+      .toThrow(/Select 2 types/);
+  });
+  it("rejects more than max (3 of 2)", () => {
+    expect(() => repriceItems([trayItem([sel("m1"), sel("m2"), sel("m3")])], [trayProduct]))
+      .toThrow(/Select 2 types/);
   });
 });

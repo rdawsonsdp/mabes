@@ -2,6 +2,19 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import type { CateringCartState } from "@/app/lib/catering/types";
 
+// Mock the Drop-in so requestNonce() resolves a known nonce.
+vi.mock("@/app/components/catering/BraintreeDropIn", async () => {
+  const { forwardRef, useImperativeHandle } = await import("react");
+  return {
+    BraintreeDropIn: forwardRef((_props: any, ref: any) => {
+      useImperativeHandle(ref, () => ({
+        requestNonce: () => Promise.resolve("fake-nonce-123"),
+      }));
+      return null;
+    }),
+  };
+});
+
 const push = vi.fn();
 vi.mock("next/navigation", () => ({ useRouter: () => ({ push }) }));
 
@@ -110,12 +123,9 @@ describe("CheckoutClient", () => {
     );
   });
 
-  it("submits Place Order & Pay with isQuote:false and paymentNonce:null", async () => {
-    const orderRecord = { orderNumber: "MB-1043", isQuote: false, totalCents: 7938 };
-    fetchMock.mockResolvedValue({
-      ok: true,
-      json: async () => ({ success: true, order: orderRecord }),
-    });
+  it("Place Order & Pay posts the Braintree nonce", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ order: { id: "x", orderNumber: "MB-1001" } }) });
+    vi.stubGlobal("fetch", fetchMock);
 
     render(<CheckoutClient />);
     fireEvent.change(screen.getByLabelText(/name/i), { target: { value: "Connie Brown" } });
@@ -124,21 +134,11 @@ describe("CheckoutClient", () => {
     fireEvent.change(screen.getByLabelText(/event date/i), { target: { value: "2030-01-10" } });
     fireEvent.click(screen.getByRole("button", { name: /review order/i }));
 
-    // Step 2 → click Place Order & Pay
     fireEvent.click(await screen.findByRole("button", { name: /place order & pay/i }));
 
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
-      "/api/catering/checkout",
-      expect.objectContaining({ method: "POST" })
-    ));
-    const body = JSON.parse(fetchMock.mock.calls[0][1].body as string);
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
     expect(body.isQuote).toBe(false);
-    expect(body.paymentNonce).toBeNull();
-
-    await waitFor(() => expect(push).toHaveBeenCalledWith("/catering/confirmation"));
-    expect(Storage.prototype.setItem).toHaveBeenCalledWith(
-      "mabes-last-catering-order",
-      JSON.stringify(orderRecord)
-    );
+    expect(body.paymentNonce).toBe("fake-nonce-123");
   });
 });

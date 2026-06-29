@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useCateringCart } from "@/app/components/catering/CateringCartProvider";
+import { BraintreeDropIn, type BraintreeDropInHandle } from "@/app/components/catering/BraintreeDropIn";
 import { computeCateringTotals } from "@/app/lib/catering/totals";
 import { meetsMinimum, earliestEventDate, CATERING_MINIMUM_CENTS } from "@/app/lib/catering/config";
 import { formatCents } from "@/app/lib/money";
@@ -34,9 +35,11 @@ const FIELD_LABELS: Record<string, string> = {
 export function CheckoutClient() {
   const router = useRouter();
   const { state, clear } = useCateringCart();
+  const dropinRef = useRef<BraintreeDropInHandle>(null);
   const [step, setStep] = useState<1 | 2>(1);
   const [submitting, setSubmitting] = useState<"quote" | "order" | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [payError, setPayError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [form, setForm] = useState<Form>({
@@ -114,11 +117,24 @@ export function CheckoutClient() {
     }
   }
 
-  async function submit(kind: "quote" | "order") {
-    setSubmitting(kind);
+  async function submitOrder(isQuote: boolean) {
+    setSubmitting(isQuote ? "quote" : "order");
     setSubmitError(null);
+    setPayError(null);
+
+    let paymentNonce: string | null = null;
+    if (!isQuote) {
+      try {
+        paymentNonce = await dropinRef.current!.requestNonce();
+      } catch (e) {
+        setPayError(e instanceof Error ? e.message : "Payment details are incomplete.");
+        setSubmitting(null);
+        return;
+      }
+    }
+
     const payload: CateringOrderInput = {
-      isQuote: kind === "quote",
+      isQuote,
       fulfillmentType: fulfillment,
       customer: {
         name: form.name.trim(),
@@ -136,7 +152,7 @@ export function CheckoutClient() {
       taxExempt: taxExemptApplied,
       taxExemptCertificateUrl: certUrl,
       items: state.items,
-      paymentNonce: null, // Phase 5 (Braintree) sets this for the paid path
+      paymentNonce,
     };
 
     try {
@@ -145,11 +161,17 @@ export function CheckoutClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Failed to submit your order.");
+      if (res.status === 402) {
+        const { error } = await res.json();
+        setPayError(error || "Payment was declined.");
+        return;
       }
-      const order = data.order as CateringOrderRecord;
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setSubmitError((data as { error?: string }).error || "Failed to submit your order.");
+        return;
+      }
+      const { order } = await res.json() as { order: CateringOrderRecord };
       sessionStorage.setItem("mabes-last-catering-order", JSON.stringify(order));
       clear();
       router.push("/catering/confirmation");
@@ -311,20 +333,23 @@ export function CheckoutClient() {
                 </dl>
               </section>
 
+              <BraintreeDropIn ref={dropinRef} onError={(m) => setPayError(m)} />
+              {payError && <p className="text-maroon text-small">{payError}</p>}
+
               {submitError && (
                 <p role="alert" className="rounded-lg bg-maroon/10 px-4 py-3 text-small text-maroon">{submitError}</p>
               )}
 
               <div className="flex flex-col gap-3 sm:flex-row">
                 <button
-                  onClick={() => submit("order")}
+                  onClick={() => submitOrder(false)}
                   disabled={submitting !== null || belowMin}
                   className="font-display flex-1 rounded-pill bg-maroon py-3.5 text-small uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon disabled:opacity-60"
                 >
                   {submitting === "order" ? "Placing…" : "Place Order & Pay"}
                 </button>
                 <button
-                  onClick={() => submit("quote")}
+                  onClick={() => submitOrder(true)}
                   disabled={submitting !== null || belowMin}
                   className="font-display flex-1 rounded-pill border border-maroon py-3.5 text-small uppercase tracking-widest text-maroon transition-colors hover:bg-maroon hover:text-cream disabled:opacity-60"
                 >

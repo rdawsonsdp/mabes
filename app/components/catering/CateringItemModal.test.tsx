@@ -72,12 +72,15 @@ function renderModal(product: Product) {
 describe("CateringItemModal", () => {
   beforeEach(() => window.sessionStorage.clear());
 
-  it("adds an item when a required single-select group has its default preselected", async () => {
+  it("adds a boxed lunch with the required default cheese, defaulting to the 10-guest minimum", async () => {
     const user = userEvent.setup();
     renderModal(cheeseProduct);
-    expect(screen.getByRole("button", { name: /Add to Order/i })).toHaveTextContent("$14.50");
+    // Boxed Lunches are per-person with a 10-guest minimum, so qty defaults to 10:
+    // 10 × $14.50 = $145.00.
+    expect(screen.getByRole("button", { name: /Add to Order/i })).toHaveTextContent("$145.00");
+    expect(screen.getByText(/Minimum 10 guests/i)).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: /Add to Order/i }));
-    expect(screen.getByTestId("count").textContent).toBe("1");
+    expect(screen.getByTestId("count").textContent).toBe("10");
   });
 
   it("blocks adding a tray until exactly 2 types are selected", async () => {

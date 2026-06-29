@@ -54,7 +54,7 @@ describe("CateringStore", () => {
     // modal open
     expect(screen.getByRole("dialog", { name: /Customize Blue Fish Box/i })).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: /Add to Order/i }));
-    // floating button reflects the cart
-    expect(screen.getByRole("button", { name: /View order/i })).toHaveTextContent("1 item");
+    // Boxed Lunches default to the 10-guest minimum, so the cart reflects 10 items
+    expect(screen.getByRole("button", { name: /View order/i })).toHaveTextContent("10 items");
   });
 });

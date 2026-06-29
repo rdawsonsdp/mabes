@@ -6,6 +6,7 @@ import { formatCents } from "@/app/lib/money";
 import { useCateringCart } from "./CateringCartProvider";
 import { useDialog } from "@/app/components/cart/useDialog";
 import { validateModifierSelection } from "@/app/lib/catering/validation";
+import { isPerPersonCategory, PER_PERSON_MIN_GUESTS } from "@/app/lib/catering/config";
 import { Close, Minus, Plus } from "@/app/components/icons";
 import type { SelectedModifier } from "@/app/lib/catering/types";
 
@@ -55,9 +56,11 @@ export function CateringItemModal({
   onClose: () => void;
 }) {
   const { addItem } = useCateringCart();
+  const perPerson = isPerPersonCategory(product.category);
+  const minQty = perPerson ? PER_PERSON_MIN_GUESTS : 1;
   const init = useMemo(() => defaultSelection(product), [product]);
   const [selected, setSelected] = useState<Set<string>>(init);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(minQty);
   const [notes, setNotes] = useState("");
   const [showErrors, setShowErrors] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -216,31 +219,29 @@ export function CateringItemModal({
               htmlFor="catering-qty"
               className="font-display text-[11px] uppercase tracking-widest text-copper"
             >
-              {product.category === "Boxed Lunches" || product.category === "Wraps"
-                ? "Number of people"
-                : "Quantity"}
+              {perPerson ? "How many guests?" : "Quantity"}
             </label>
             <div className="mt-1 flex items-center gap-2 rounded-pill border border-copper/40 px-2 py-1">
               <button
                 type="button"
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                onClick={() => setQuantity((q) => Math.max(minQty, q - 1))}
                 aria-label="Decrease quantity"
                 className="rounded-full p-1 text-maroon transition-colors hover:bg-cream disabled:opacity-40"
-                disabled={quantity <= 1}
+                disabled={quantity <= minQty}
               >
                 <Minus className="h-4 w-4" />
               </button>
               <input
                 id="catering-qty"
                 type="number"
-                min={1}
+                min={minQty}
                 max={99}
                 value={quantity}
                 onChange={(e) => {
                   const n = parseInt(e.target.value, 10);
-                  setQuantity(Number.isNaN(n) ? 1 : Math.min(99, Math.max(1, n)));
+                  setQuantity(Number.isNaN(n) ? minQty : Math.min(99, Math.max(minQty, n)));
                 }}
-                aria-label="Number of people"
+                aria-label={perPerson ? "Number of guests" : "Quantity"}
                 className="w-12 bg-transparent text-center font-display text-ink outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
               <button
@@ -252,6 +253,9 @@ export function CateringItemModal({
                 <Plus className="h-4 w-4" />
               </button>
             </div>
+            {perPerson && (
+              <p className="mt-1 text-[11px] text-warm-gray">Minimum {minQty} guests</p>
+            )}
           </div>
           <button
             onClick={handleAdd}

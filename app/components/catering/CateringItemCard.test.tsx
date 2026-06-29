@@ -23,11 +23,19 @@ function product(over: Partial<Product> = {}): Product {
 }
 
 describe("CateringItemCard", () => {
-  it("renders name, description, and base price", () => {
+  it("renders name, description, and per-person price with the guest minimum", () => {
     render(<CateringItemCard product={product()} onSelect={() => {}} />);
     expect(screen.getByText("The Blue Fish Sandwich Box")).toBeInTheDocument();
     expect(screen.getByText(/Tuna Salad/)).toBeInTheDocument();
+    // Boxed Lunches are per-person with a 10-guest minimum
+    expect(screen.getByText("$12.00 / person")).toBeInTheDocument();
+    expect(screen.getByText(/Minimum 10 guests/i)).toBeInTheDocument();
+  });
+
+  it("shows a flat price (no '/ person') for non-per-person categories like Add-Ons", () => {
+    render(<CateringItemCard product={product({ category: "Add-Ons", name: "1 Dozen Cookies" })} onSelect={() => {}} />);
     expect(screen.getByText("$12.00")).toBeInTheDocument();
+    expect(screen.queryByText(/Minimum 10 guests/i)).not.toBeInTheDocument();
   });
 
   it("shows 'Options available' and 'Choose options' when the product has modifier groups", () => {

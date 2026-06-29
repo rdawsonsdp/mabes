@@ -3,6 +3,7 @@
 import type { Product } from "@/app/lib/types";
 import { productFromPriceCents } from "@/app/lib/types";
 import { formatCents } from "@/app/lib/money";
+import { isPerPersonCategory, PER_PERSON_MIN_GUESTS } from "@/app/lib/catering/config";
 import { Plus } from "@/app/components/icons";
 
 export function CateringItemCard({
@@ -14,15 +15,22 @@ export function CateringItemCard({
 }) {
   const hasOptions = product.modifierGroups.length > 0;
   const priceCents = productFromPriceCents(product);
-  const priceLabel = product.variants.length > 0 ? `from ${formatCents(priceCents)}` : formatCents(priceCents);
+  const perPerson = isPerPersonCategory(product.category);
+  const base = product.variants.length > 0 ? `from ${formatCents(priceCents)}` : formatCents(priceCents);
+  const priceLabel = perPerson ? `${base} / person` : base;
 
   return (
     <article className="flex flex-col justify-between rounded-2xl border border-copper/20 bg-paper p-5 shadow-soft">
       <div>
         <div className="flex items-start justify-between gap-3">
           <h3 className="font-display text-h4 leading-tight text-ink">{product.name}</h3>
-          <span className="font-display shrink-0 text-maroon">{priceLabel}</span>
+          <span className="font-display shrink-0 whitespace-nowrap text-maroon">{priceLabel}</span>
         </div>
+        {perPerson && (
+          <p className="mt-1 text-xs uppercase tracking-widest text-copper">
+            Minimum {PER_PERSON_MIN_GUESTS} guests
+          </p>
+        )}
         {product.description && (
           <p className="mt-2 text-small text-warm-gray">{product.description}</p>
         )}

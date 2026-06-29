@@ -5,6 +5,14 @@ export const CATERING_MINIMUM_CENTS = 6_000; // $60 order minimum (BentoBox rule
 export const CATERING_LEAD_TIME_DAYS = 2; // 2-day advance notice
 export const SALES_TAX_RATE = 0.1025; // Chicago 10.25% — PROPOSED default
 
+// Per-person catering items (individual boxed meals) are priced per guest with a
+// minimum guest count. Trays / Add-Ons are flat-priced and not per-person.
+export const PER_PERSON_MIN_GUESTS = 10;
+export const PER_PERSON_CATEGORIES = ["Boxed Lunches", "Wraps"];
+export function isPerPersonCategory(category: string): boolean {
+  return PER_PERSON_CATEGORIES.includes(category);
+}
+
 export const DELIVERY_FEE_TIERS_CENTS: { minSubtotalCents: number; feeCents: number }[] = [
   { minSubtotalCents: 200_000, feeCents: 25_000 }, // ≥ $2000 → $250  (LB-style)
   { minSubtotalCents: 100_000, feeCents: 15_000 }, // ≥ $1000 → $150

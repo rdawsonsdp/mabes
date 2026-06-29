@@ -43,6 +43,31 @@ export function CateringStore({ menus }: { menus: MenuGroup[] }) {
         </div>
       </header>
 
+      {/* Featured special: Boxed Lunches (per person, 10-guest minimum) */}
+      {categoryNames.includes("Boxed Lunches") && (
+        <section className="border-b border-copper/20 bg-copper/10 px-4 py-4">
+          <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+            <div>
+              <p className="font-display text-xs uppercase tracking-widest text-copper">
+                ★ Featured · the easiest way to cater
+              </p>
+              <p className="font-display text-h4 leading-tight text-ink">
+                Boxed Lunches — per person, 10-guest minimum
+              </p>
+              <p className="mt-0.5 text-small text-warm-gray">
+                Individually boxed meals with chips. Perfect for meetings &amp; events.
+              </p>
+            </div>
+            <button
+              onClick={() => setActive("Boxed Lunches")}
+              className="font-display shrink-0 rounded-pill bg-maroon px-6 py-3 text-small uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon"
+            >
+              Shop Boxed Lunches
+            </button>
+          </div>
+        </section>
+      )}
+
       <FulfillmentBar />
 
       {categoryNames.length > 0 && (

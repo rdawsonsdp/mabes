@@ -160,5 +160,7 @@ describe("catalog.getProducts", () => {
 
     expect(h.builder).not.toBeNull();
     expect(h.builder!.neq).toHaveBeenCalledWith("menu", "catering");
+    expect(h.builder!.eq).toHaveBeenCalledWith("is_available", true);
+    expect(h.builder!.order).toHaveBeenCalledWith("sort_order", { ascending: true });
   });
 });

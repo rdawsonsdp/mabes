@@ -5,13 +5,22 @@ import { Close, Instagram, Menu, Phone } from "./icons";
 import { PHONE_DISPLAY, PHONE_HREF } from "./ContactBar";
 import { CartButton } from "./cart/CartButton";
 
-const NAV = [
+type NavItem = {
+  label: string;
+  href: string;
+  active?: boolean;
+  cta?: boolean;
+  variant?: "catering";
+};
+
+const NAV: NavItem[] = [
   { label: "Home", href: "/", active: true },
   { label: "Menus", href: "#menus" },
-  { label: "Catering", href: "#catering" },
+  { label: "Catering", href: "/catering/menu" },
   { label: "About", href: "#about" },
   { label: "Gift Cards", href: "#gift-cards" },
   { label: "Store", href: "#store" },
+  { label: "Order Catering", href: "/catering/menu", cta: true, variant: "catering" },
   { label: "Order Online", href: "#menus", cta: true },
 ];
 
@@ -34,7 +43,11 @@ export function Header() {
               <a
                 key={item.label}
                 href={item.href}
-                className="font-display rounded-pill bg-copper px-5 py-2 text-base uppercase tracking-widest text-maroon transition-colors hover:bg-maroon hover:text-cream"
+                className={`font-display rounded-pill px-5 py-2 text-base uppercase tracking-widest transition-colors ${
+                  item.variant === "catering"
+                    ? "bg-maroon text-cream hover:bg-copper hover:text-maroon"
+                    : "bg-copper text-maroon hover:bg-maroon hover:text-cream"
+                }`}
               >
                 {item.label}
               </a>
@@ -105,9 +118,16 @@ export function Header() {
             </a>
           ))}
           <a
-            href="#menus"
+            href="/catering/menu"
             onClick={() => setOpen(false)}
             className="font-display mt-4 rounded-pill bg-maroon py-3 text-center text-base uppercase tracking-widest text-cream"
+          >
+            Order Catering
+          </a>
+          <a
+            href="#menus"
+            onClick={() => setOpen(false)}
+            className="font-display mt-2 rounded-pill bg-copper py-3 text-center text-base uppercase tracking-widest text-maroon"
           >
             Order Online
           </a>

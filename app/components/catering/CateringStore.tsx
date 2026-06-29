@@ -25,11 +25,19 @@ export function CateringStore({ menus }: { menus: MenuGroup[] }) {
 
   return (
     <div className="min-h-screen bg-cream">
-      <header className="bg-maroon px-4 py-8 text-cream">
-        <div className="mx-auto max-w-5xl">
-          <p className="font-display text-xs uppercase tracking-widest text-cream/70">Mabe&apos;s Catering</p>
-          <h1 className="font-display text-h1 leading-tight">Build Your Catering Order</h1>
-          <p className="mt-2 max-w-2xl text-small text-cream/80">
+      <header
+        className="relative overflow-hidden bg-maroon px-4 py-16 text-cream"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(123,37,37,0.80), rgba(45,36,36,0.82)), url('/img/catering/catering-hero.avif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="relative mx-auto max-w-5xl">
+          <p className="font-display text-xs uppercase tracking-widest text-cream/80">Mabe&apos;s Catering</p>
+          <h1 className="font-display text-h1 leading-tight drop-shadow-sm">Build Your Catering Order</h1>
+          <p className="mt-2 max-w-2xl text-small text-cream/90">
             Order minimum $60 · 2 days&apos; notice · pickup or delivery.
           </p>
         </div>

@@ -22,6 +22,7 @@ export function ConfirmationClient() {
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem("mabes-last-catering-order");
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount-time sessionStorage load
       if (raw) setOrder(JSON.parse(raw) as CateringOrderRecord);
     } catch {
       /* ignore malformed storage */

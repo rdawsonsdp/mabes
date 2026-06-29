@@ -85,7 +85,7 @@ export function CateringCartDrawer() {
                         ))}
                       </ul>
                     )}
-                    {item.notes && <p className="mt-1 text-small italic text-warm-gray">"{item.notes}"</p>}
+                    {item.notes && <p className="mt-1 text-small italic text-warm-gray">&ldquo;{item.notes}&rdquo;</p>}
                     <div className="mt-2 flex items-center gap-3">
                       <div className="flex items-center gap-2 rounded-pill border border-copper/40 px-1.5 py-1">
                         <button

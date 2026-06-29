@@ -63,6 +63,7 @@ export function CateringCartProvider({ children }: { children: ReactNode }) {
     if (saved && (saved.items.length > 0 || saved.eventDate)) {
       dispatch({ type: "HYDRATE", state: saved });
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount-time hydration from sessionStorage
     setHydrated(true);
   }, []);
 

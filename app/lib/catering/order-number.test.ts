@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { randomOrderNumber, generateOrderNumber } from "./order-number";
+import { randomOrderNumber } from "./order-number";
 
 describe("randomOrderNumber", () => {
   it("matches MB-#### with 4 digits in 1000-9999", () => {

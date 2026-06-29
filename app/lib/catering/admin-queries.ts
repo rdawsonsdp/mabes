@@ -1,4 +1,6 @@
 import { getSupabase } from "@/app/lib/supabase/server";
+import { SELECT, mapProduct, type Row } from "@/app/lib/catalog/catalog";
+import type { Product } from "@/app/lib/types";
 import type {
   CateringOrderRecord,
   CateringOrderStatus,
@@ -61,4 +63,20 @@ export async function listCateringOrders(
   const { data, error } = await query;
   if (error) throw new Error(`Catering orders load failed: ${error.message}`);
   return (data ?? []).map((r) => mapCateringOrderRow(r as unknown as Row));
+}
+
+/**
+ * All catering products regardless of availability — for admin use only.
+ * Uses the same SELECT + mapProduct as the public catalog, but omits the
+ * is_available=true filter so admins can edit hidden/draft items.
+ */
+export async function getAllCateringMenuItems(): Promise<Product[]> {
+  const { data, error } = await getSupabase()
+    .from("products")
+    .select(SELECT)
+    .eq("menu", "catering")
+    .order("category")
+    .order("sort_order");
+  if (error) throw new Error(`Catering menu load failed: ${error.message}`);
+  return (data ?? []).map((r) => mapProduct(r as Row));
 }

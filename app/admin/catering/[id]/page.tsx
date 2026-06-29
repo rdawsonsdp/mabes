@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { requireAdmin } from "@/app/lib/supabase/admin-auth";
 import { getCateringOrder } from "@/app/lib/catering/orders";
 import { formatCents } from "@/app/lib/money";
-import { AdminBar } from "@/app/components/admin/AdminBar";
+import { AdminNav } from "@/app/components/admin/AdminNav";
 import { AdminCateringActions } from "@/app/components/admin/AdminCateringActions";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +29,7 @@ export default async function AdminCateringDetailPage({
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <AdminBar title={`Order ${order.orderNumber}`} />
+      <AdminNav />
       <div className="mx-auto max-w-[1000px] px-6 py-8">
         <Link href="/admin/catering" className="font-display text-small text-copper hover:text-maroon">
           ‹ Back to orders

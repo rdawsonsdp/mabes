@@ -67,10 +67,10 @@ describe("getAllCateringMenuItems", () => {
 
     expect(chain.from).toHaveBeenCalledWith("products");
     // eq should have been called ONLY for menu='catering'
-    const eqCalls = (chain.eq as ReturnType<typeof vi.fn>).mock.calls;
-    const isAvailableCall = eqCalls.find(([k]: [string]) => k === "is_available");
+    const eqCalls = (chain.eq as ReturnType<typeof vi.fn>).mock.calls as unknown[][];
+    const isAvailableCall = eqCalls.find((c) => c[0] === "is_available");
     expect(isAvailableCall).toBeUndefined();
-    const menuCall = eqCalls.find(([k]: [string]) => k === "menu");
+    const menuCall = eqCalls.find((c) => c[0] === "menu");
     expect(menuCall).toEqual(["menu", "catering"]);
   });
 

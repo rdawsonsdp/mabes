@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/app/lib/supabase/admin-auth";
 import { listCateringOrders } from "@/app/lib/catering/admin-queries";
 import { formatCents } from "@/app/lib/money";
-import { AdminBar } from "@/app/components/admin/AdminBar";
+import { AdminNav } from "@/app/components/admin/AdminNav";
 import type { CateringOrderStatus } from "@/app/lib/catering/types";
 
 export const dynamic = "force-dynamic";
@@ -46,7 +46,7 @@ export default async function AdminCateringPage({
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <AdminBar title="Catering Orders" />
+      <AdminNav />
       <div className="mx-auto max-w-[1100px] px-6 py-8">
         <div className="mb-6 flex flex-wrap gap-2">
           {STATUS_TABS.map((t) => {

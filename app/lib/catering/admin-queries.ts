@@ -16,8 +16,6 @@ const COLUMNS =
   "subtotal_cents, delivery_fee_cents, tax_cents, total_cents, tax_exempt, tax_exempt_certificate_url, " +
   "payment_provider, payment_transaction_id, payment_status, items, admin_notes, created_at, updated_at";
 
-type Row = Record<string, unknown>;
-
 /** Map a catering_orders DB row → the app's CateringOrderRecord (FOUNDATIONS §3). */
 export function mapCateringOrderRow(row: Row): CateringOrderRecord {
   return {

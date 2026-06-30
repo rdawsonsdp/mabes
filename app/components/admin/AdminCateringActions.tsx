@@ -39,6 +39,26 @@ export function AdminCateringActions({ order }: { order: CateringOrderRecord }) 
     }
   };
 
+  const approve = async () => {
+    setBusy(true);
+    setMsg(null);
+    try {
+      const res = await fetch(`/api/admin/catering/${order.id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "approve" }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || "Approve failed");
+      setStatus("confirmed");
+      setMsg({ text: "Order approved — confirmation email sent to the customer.", ok: true });
+      router.refresh();
+    } catch (err) {
+      setMsg({ text: err instanceof Error ? err.message : "Approve failed", ok: false });
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const resend = async (recipient: "customer" | "staff" | "both") => {
     setBusy(true);
     setMsg(null);
@@ -81,7 +101,15 @@ export function AdminCateringActions({ order }: { order: CateringOrderRecord }) 
         ))}
       </select>
 
-      <div className="mt-5 flex flex-wrap gap-2">
+      <button
+        onClick={approve}
+        disabled={busy || status === "confirmed"}
+        className={`${btn} mt-5 w-full bg-olive text-cream hover:opacity-90`}
+      >
+        {status === "confirmed" ? "✓ Order approved" : "Approve order — notify customer"}
+      </button>
+
+      <div className="mt-3 flex flex-wrap gap-2">
         <button onClick={() => resend("customer")} disabled={busy} className={`${btn} bg-maroon text-cream hover:bg-copper hover:text-maroon`}>
           Resend customer email
         </button>

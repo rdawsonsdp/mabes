@@ -36,14 +36,21 @@ function modLine(mods: { name: string; priceCents: number }[]): string {
 }
 
 export function buildCateringCustomerHtml(order: CateringOrderRecord): string {
+  const isConfirmed = order.status === "confirmed";
   const isQuote = order.isQuote;
-  const title = isQuote ? "Your Catering Quote" : "Your Catering Order";
-  const prefix = isQuote ? "Quote" : "Order";
+  const title = isConfirmed
+    ? "Your Order Is Confirmed"
+    : isQuote
+      ? "Your Catering Quote"
+      : "Your Catering Order";
+  const prefix = isConfirmed ? "Order" : isQuote ? "Quote" : "Order";
   const firstName = order.customerName.split(" ")[0] || "there";
 
-  const intro = isQuote
-    ? "Thank you for your interest in Mabe's catering! Here are the details of your quote. We'll review it and be in touch within 1 business day."
-    : "Thank you for your order! Payment received. Here is your order confirmation.";
+  const intro = isConfirmed
+    ? "Great news — your catering order is confirmed! We've got your event on our calendar. Here are the details. We can't wait to feed your crew."
+    : isQuote
+      ? "Thank you for your interest in Mabe's catering! Here are the details of your quote. We'll review it and be in touch within 1 business day."
+      : "Thank you for your order! Payment received. Here is your order confirmation.";
 
   const fulfillmentLabel =
     order.fulfillmentType === "delivery"
@@ -67,7 +74,13 @@ export function buildCateringCustomerHtml(order: CateringOrderRecord): string {
     })
     .join("");
 
-  const nextSteps = isQuote
+  const nextSteps = isConfirmed
+    ? `<ol style="margin:0;padding-left:20px;color:#555;font-size:14px;line-height:1.8;">
+         <li>Your order is <strong>confirmed</strong> and on our calendar</li>
+         <li>We'll reach out if we need any final details</li>
+         <li>Your order will be ready for your selected ${order.fulfillmentType} on ${formatEventDate(order.eventDate)}</li>
+       </ol>`
+    : isQuote
     ? `<ol style="margin:0;padding-left:20px;color:#555;font-size:14px;line-height:1.8;">
          <li>Our team reviews your quote within 1 business day</li>
          <li>We'll confirm details and answer any questions</li>
@@ -145,8 +158,11 @@ export async function sendCateringCustomerEmail(
   order: CateringOrderRecord
 ): Promise<{ success: boolean; id?: string }> {
   const html = buildCateringCustomerHtml(order);
-  const subject = order.isQuote
-    ? `Your Mabe's Catering Quote ${order.orderNumber}`
-    : `Your Mabe's Catering Order ${order.orderNumber}`;
+  const subject =
+    order.status === "confirmed"
+      ? `Your Mabe's Catering Order ${order.orderNumber} is Confirmed`
+      : order.isQuote
+        ? `Your Mabe's Catering Quote ${order.orderNumber}`
+        : `Your Mabe's Catering Order ${order.orderNumber}`;
   return sendEmail({ to: order.customerEmail, subject, html, replyTo: CATERING_EMAIL });
 }

@@ -50,8 +50,22 @@ export async function POST(
     action?: string;
     recipient?: "customer" | "staff" | "both";
   };
-  if (body.action !== "resend") {
+  if (body.action !== "resend" && body.action !== "approve") {
     return NextResponse.json({ error: "Unknown action" }, { status: 400 });
+  }
+
+  // Approve: mark the order confirmed and email the customer the confirmation.
+  if (body.action === "approve") {
+    try {
+      const confirmed = await updateCateringOrderStatus(id, "confirmed");
+      await sendCateringCustomerEmail(confirmed); // status "confirmed" → "order is confirmed" copy
+      return NextResponse.json({ success: true, order: confirmed, emailed: "customer" });
+    } catch (err) {
+      return NextResponse.json(
+        { error: err instanceof Error ? err.message : "Failed to approve order" },
+        { status: 500 }
+      );
+    }
   }
 
   const order = await getCateringOrder(id);

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { downloadCateringOrderPdf } from "@/app/lib/catering/pdf";
 import { formatCents } from "@/app/lib/money";
+import { taxRatePercentLabel } from "@/app/lib/catering/config";
 import { PHONE_DISPLAY, PHONE_HREF, CATERING_EMAIL, ADDRESS } from "@/app/components/ContactBar";
 import type { CateringOrderRecord } from "@/app/lib/catering/types";
 
@@ -89,7 +90,7 @@ export function ConfirmationClient() {
           <div className="mt-4 space-y-1 text-small text-ink">
             <div className="flex justify-between"><span className="text-warm-gray">Subtotal</span><span>{formatCents(order.subtotalCents)}</span></div>
             <div className="flex justify-between"><span className="text-warm-gray">Delivery</span><span>{formatCents(order.deliveryFeeCents)}</span></div>
-            <div className="flex justify-between"><span className="text-warm-gray">{order.taxExempt ? "Tax (exempt)" : "Tax"}</span><span>{formatCents(order.taxCents)}</span></div>
+            <div className="flex justify-between"><span className="text-warm-gray">{order.taxExempt ? "Tax (exempt)" : `Tax (${taxRatePercentLabel()})`}</span><span>{formatCents(order.taxCents)}</span></div>
             <div className="mt-2 flex justify-between border-t border-maroon/30 pt-2">
               <span className="font-display text-h4 text-ink">Total</span>
               <span className="font-display text-h3 text-maroon">{formatCents(order.totalCents)}</span>

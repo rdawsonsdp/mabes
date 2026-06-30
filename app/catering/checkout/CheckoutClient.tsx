@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCateringCart } from "@/app/components/catering/CateringCartProvider";
 import { BraintreeDropIn, type BraintreeDropInHandle } from "@/app/components/catering/BraintreeDropIn";
 import { computeCateringTotals } from "@/app/lib/catering/totals";
-import { meetsMinimum, earliestEventDate, CATERING_MINIMUM_CENTS } from "@/app/lib/catering/config";
+import { meetsMinimum, earliestEventDate, CATERING_MINIMUM_CENTS, taxRatePercentLabel } from "@/app/lib/catering/config";
 import { formatCents } from "@/app/lib/money";
 import { ADDRESS, PHONE_DISPLAY } from "@/app/components/ContactBar";
 import type { CateringOrderInput, CateringOrderRecord, FulfillmentType } from "@/app/lib/catering/types";
@@ -380,7 +380,7 @@ export function CheckoutClient() {
           <div className="mt-4 space-y-1 text-small text-ink">
             <Row label="Subtotal" value={formatCents(totals.subtotalCents)} />
             <Row label="Delivery" value={formatCents(totals.deliveryFeeCents)} />
-            <Row label={taxExemptApplied ? "Tax (exempt)" : "Tax (est.)"} value={formatCents(totals.taxCents)} />
+            <Row label={taxExemptApplied ? "Tax (exempt)" : `Tax (est., ${taxRatePercentLabel()})`} value={formatCents(totals.taxCents)} />
             <div className="mt-2 flex justify-between border-t border-maroon/30 pt-2">
               <span className="font-display text-h4 text-ink">Total</span>
               <span className="font-display text-h3 text-maroon">{formatCents(totals.totalCents)}</span>

@@ -1,4 +1,5 @@
 import { formatCents } from "@/app/lib/money";
+import { taxRatePercentLabel } from "@/app/lib/catering/config";
 import { CATERING_EMAIL, ADDRESS, PHONE_DISPLAY } from "@/app/components/ContactBar";
 import { sendEmail } from "./send-email";
 import type { CateringOrderRecord } from "@/app/lib/catering/types";
@@ -134,7 +135,7 @@ export function buildCateringCustomerHtml(order: CateringOrderRecord): string {
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr><td style="padding:6px 0;font-size:14px;color:#555;">Subtotal</td><td style="padding:6px 0;font-size:14px;color:${INK};text-align:right;">${formatCents(order.subtotalCents)}</td></tr>
           <tr><td style="padding:6px 0;font-size:14px;color:#555;">Delivery</td><td style="padding:6px 0;font-size:14px;color:${INK};text-align:right;">${formatCents(order.deliveryFeeCents)}</td></tr>
-          <tr><td style="padding:6px 0;font-size:14px;color:#555;">Tax${order.taxExempt ? " (exempt)" : ""}</td><td style="padding:6px 0;font-size:14px;color:${INK};text-align:right;">${formatCents(order.taxCents)}</td></tr>
+          <tr><td style="padding:6px 0;font-size:14px;color:#555;">Tax${order.taxExempt ? " (exempt)" : ` (${taxRatePercentLabel()})`}</td><td style="padding:6px 0;font-size:14px;color:${INK};text-align:right;">${formatCents(order.taxCents)}</td></tr>
           <tr><td style="padding:12px 0 6px;font-size:18px;font-weight:700;color:${INK};border-top:2px solid ${MAROON};">Total</td><td style="padding:12px 0 6px;font-size:18px;font-weight:700;color:${MAROON};border-top:2px solid ${MAROON};text-align:right;">${formatCents(order.totalCents)}</td></tr>
         </table>
       </td></tr>

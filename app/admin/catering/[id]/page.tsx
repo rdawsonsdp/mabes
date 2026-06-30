@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { requireAdmin } from "@/app/lib/supabase/admin-auth";
 import { getCateringOrder } from "@/app/lib/catering/orders";
 import { formatCents } from "@/app/lib/money";
+import { taxRatePercentLabel } from "@/app/lib/catering/config";
 import { AdminNav } from "@/app/components/admin/AdminNav";
 import { AdminCateringActions } from "@/app/components/admin/AdminCateringActions";
 
@@ -174,7 +175,7 @@ export default async function AdminCateringDetailPage({
                   <dd>{formatCents(order.deliveryFeeCents)}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>Tax</dt>
+                  <dt>Tax{order.taxExempt ? " (exempt)" : ` (${taxRatePercentLabel()})`}</dt>
                   <dd>{formatCents(order.taxCents)}</dd>
                 </div>
                 <div className="flex justify-between border-t border-copper/30 pt-2 font-display text-h4">

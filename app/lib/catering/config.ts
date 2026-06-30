@@ -36,6 +36,11 @@ export function meetsMinimum(subtotalCents: number): boolean {
   return subtotalCents >= CATERING_MINIMUM_CENTS;
 }
 
+/** The sales-tax rate as a display string, e.g. "10.25%". */
+export function taxRatePercentLabel(): string {
+  return `${(SALES_TAX_RATE * 100).toFixed(2).replace(/\.?0+$/, "")}%`;
+}
+
 /** Earliest selectable event date (today + lead time), yyyy-mm-dd. */
 export function earliestEventDate(now: Date = new Date()): string {
   const d = new Date(now);

@@ -79,6 +79,8 @@ export function AdminCateringActions({ order }: { order: CateringOrderRecord }) 
 
   const btn =
     "font-display rounded-pill px-4 py-2 text-small tracking-wide transition-colors disabled:opacity-50";
+  const link =
+    "font-display text-small text-maroon underline underline-offset-4 transition-colors hover:text-copper disabled:opacity-50 disabled:no-underline";
 
   return (
     <div className="rounded-md border border-copper/20 bg-paper p-5">
@@ -109,14 +111,14 @@ export function AdminCateringActions({ order }: { order: CateringOrderRecord }) 
         {status === "confirmed" ? "✓ Order approved" : "Approve order — notify customer"}
       </button>
 
-      <div className="mt-3 flex flex-wrap gap-2">
-        <button onClick={() => resend("customer")} disabled={busy} className={`${btn} bg-maroon text-cream hover:bg-copper hover:text-maroon`}>
+      <div className="mt-4 flex flex-col items-start gap-2.5">
+        <button onClick={() => resend("customer")} disabled={busy} className={link}>
           Resend customer email
         </button>
-        <button onClick={() => resend("staff")} disabled={busy} className={`${btn} bg-olive text-cream hover:opacity-90`}>
+        <button onClick={() => resend("staff")} disabled={busy} className={link}>
           Resend staff email
         </button>
-        <button onClick={() => downloadCateringOrderPdf(order)} className={`${btn} border border-maroon text-maroon hover:bg-maroon hover:text-cream`}>
+        <button onClick={() => downloadCateringOrderPdf(order)} className={link}>
           Download PDF
         </button>
       </div>

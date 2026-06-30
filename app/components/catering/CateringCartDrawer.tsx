@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { useCateringCart } from "./CateringCartProvider";
 import { useDialog } from "@/app/components/cart/useDialog";
 import { formatCents } from "@/app/lib/money";
-import { computeCateringTotals } from "@/app/lib/catering/config";
+import { computeCateringTotals, taxRatePercentLabel } from "@/app/lib/catering/config";
 import { validateMinimum, validateLeadTime } from "@/app/lib/catering/validation";
 import { Bag, Close, Minus, Plus, Trash } from "@/app/components/icons";
 
@@ -132,7 +132,7 @@ export function CateringCartDrawer() {
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <dt className="text-warm-gray">Estimated tax</dt>
+                  <dt className="text-warm-gray">Estimated tax ({taxRatePercentLabel()})</dt>
                   <dd className="text-ink">{formatCents(totals.taxCents)}</dd>
                 </div>
                 <div className="flex items-baseline justify-between pt-1">

@@ -30,29 +30,25 @@ export function Hero() {
         </p>
 
         <div className="mt-2 flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          {/* one equal-width CTA stack: order, cater, then the delivery apps */}
+          <div className="flex w-full max-w-xs flex-col gap-3">
             <a
               href="#menus"
-              className="font-display rounded-pill bg-cream px-10 py-4 text-body tracking-widest text-maroon shadow-float transition-colors hover:bg-copper hover:text-cream"
+              className="font-display w-full rounded-pill bg-cream px-6 py-4 text-center text-body tracking-widest text-maroon shadow-float transition-colors hover:bg-copper hover:text-cream"
             >
               Order Online
             </a>
             <a
               href="/catering/menu"
-              className="font-display rounded-pill border border-cream/70 px-8 py-4 text-body tracking-widest text-cream transition-colors hover:border-copper hover:text-copper"
+              className="font-display w-full rounded-pill border border-cream/70 px-6 py-4 text-center text-body tracking-widest text-cream transition-colors hover:border-copper hover:text-copper"
             >
               Order Catering
             </a>
-          </div>
-
-          {/* delivery partners — sit right under the Order / Cater buttons */}
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-small text-cream/80">Or get it delivered:</span>
             <a
               href={UBER_EATS_HREF}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-display rounded-pill bg-black px-5 py-2.5 text-small tracking-wide text-white transition-opacity hover:opacity-80"
+              className="font-display w-full rounded-pill bg-black px-6 py-4 text-center text-body tracking-widest text-white transition-opacity hover:opacity-80"
             >
               Uber&nbsp;Eats
             </a>
@@ -60,7 +56,7 @@ export function Hero() {
               href={DOORDASH_HREF}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-display rounded-pill bg-[#EB1700] px-5 py-2.5 text-small tracking-wide text-white transition-opacity hover:opacity-80"
+              className="font-display w-full rounded-pill bg-[#EB1700] px-6 py-4 text-center text-body tracking-widest text-white transition-opacity hover:opacity-80"
             >
               DoorDash
             </a>

@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import type { MenuGroup, Product } from "@/app/lib/types";
 import { formatCents } from "@/app/lib/money";
-import { AddToCartButton } from "./cart/AddToCartButton";
+import { ProductCardTrigger } from "./menu/ProductCardTrigger";
 import { useCart } from "./cart/CartProvider";
-import { Bag } from "./icons";
+import { Bag, Plus } from "./icons";
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
@@ -92,9 +92,11 @@ export function Menus({ menus }: { menus: MenuGroup[] }) {
               </h3>
               <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-6 sm:gap-5 lg:grid-cols-3">
                 {sec.products.map((p) => (
-                  <div
+                  <ProductCardTrigger
                     key={p.id}
-                    className="flex flex-col overflow-hidden rounded-xl border border-copper/15 bg-paper shadow-soft"
+                    product={p}
+                    ariaLabel={`Order ${p.name}`}
+                    className="group flex w-full flex-col overflow-hidden rounded-xl border border-copper/15 bg-paper text-left shadow-soft transition-shadow hover:shadow-float"
                   >
                     {p.image && (
                       <div className="relative aspect-[4/3] w-full bg-cream">
@@ -103,8 +105,11 @@ export function Menus({ menus }: { menus: MenuGroup[] }) {
                           alt={p.name}
                           fill
                           sizes="(min-width: 1024px) 33vw, 50vw"
-                          className="object-cover"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
+                        <span className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-maroon text-cream shadow-md transition-colors group-hover:bg-copper group-hover:text-maroon sm:right-3 sm:top-3">
+                          <Plus className="h-5 w-5" />
+                        </span>
                       </div>
                     )}
                     <div className="flex flex-1 flex-col gap-1.5 p-3 sm:p-4">
@@ -117,14 +122,11 @@ export function Menus({ menus }: { menus: MenuGroup[] }) {
                       {p.description && (
                         <p className="line-clamp-2 text-xs text-warm-gray sm:text-small">{p.description}</p>
                       )}
-                      <div className="mt-auto pt-2">
-                        <AddToCartButton
-                          product={p}
-                          className="font-display inline-flex w-full items-center justify-center gap-1.5 rounded-pill bg-maroon px-3 py-2 text-xs uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon disabled:opacity-70 sm:text-small"
-                        />
-                      </div>
+                      <span className="mt-auto inline-flex items-center gap-1 pt-2 font-display text-xs uppercase tracking-widest text-copper transition-colors group-hover:text-maroon">
+                        <Plus className="h-4 w-4" /> Add
+                      </span>
                     </div>
-                  </div>
+                  </ProductCardTrigger>
                 ))}
               </div>
             </div>

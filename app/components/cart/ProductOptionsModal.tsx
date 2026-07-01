@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
 import type { Product } from "@/app/lib/types";
 import { formatCents } from "@/app/lib/money";
@@ -41,12 +42,15 @@ function defaultSelection(product: Product): { variantId: string | null; modifie
 
 export function ProductOptionsModal({
   product,
+  image,
   onClose,
 }: {
   product: Product;
+  image?: string | null;
   onClose: () => void;
 }) {
   const { addItem } = useCart();
+  const img = image ?? product.image;
   const init = useMemo(() => defaultSelection(product), [product]);
   const [variantId, setVariantId] = useState<string | null>(init.variantId);
   const [selected, setSelected] = useState<Set<string>>(init.modifiers);
@@ -112,21 +116,38 @@ export function ProductOptionsModal({
         tabIndex={-1}
         className="relative z-10 flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl bg-paper shadow-float outline-none sm:rounded-2xl"
       >
-        {/* header */}
-        <div className="flex items-start justify-between gap-4 border-b border-copper/20 p-5">
-          <div>
-            <h3 className="font-display text-h3 leading-tight text-ink">{product.name}</h3>
-            {product.description && (
-              <p className="mt-1 text-small text-warm-gray">{product.description}</p>
-            )}
-          </div>
+        {/* hero photo */}
+        <div className="relative aspect-[16/9] w-full shrink-0 bg-cream">
+          {img ? (
+            <Image
+              src={img}
+              alt={product.name}
+              fill
+              sizes="(max-width: 640px) 100vw, 32rem"
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-cream to-copper/25">
+              <span className="font-display text-small uppercase tracking-widest text-copper/70">
+                Mabe&apos;s
+              </span>
+            </div>
+          )}
           <button
             onClick={onClose}
             aria-label="Close"
-            className="-mr-1 -mt-1 shrink-0 rounded-full p-1.5 text-warm-gray transition-colors hover:bg-cream hover:text-ink"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-paper/90 text-ink shadow-md transition-colors hover:bg-cream"
           >
             <Close className="h-5 w-5" />
           </button>
+        </div>
+
+        {/* header */}
+        <div className="border-b border-copper/20 p-5">
+          <h3 className="font-display text-h3 leading-tight text-ink">{product.name}</h3>
+          {product.description && (
+            <p className="mt-1 text-small text-warm-gray">{product.description}</p>
+          )}
         </div>
 
         {/* options (scrollable) */}

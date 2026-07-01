@@ -12,7 +12,7 @@ import { Check, Plus, Spinner } from "../icons";
 export function AddToCartButton({
   product,
   className,
-  label = "Add to Cart",
+  label = "Add to Bag",
 }: {
   product: Product;
   className?: string;
@@ -52,7 +52,7 @@ export function AddToCartButton({
         onClick={handleClick}
         disabled={busy}
         aria-busy={busy}
-        aria-label={`Add ${product.name} to cart`}
+        aria-label={`Add ${product.name} to bag`}
         className={
           className ??
           "font-display inline-flex items-center gap-1.5 rounded-pill bg-maroon px-4 py-2 text-small uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon disabled:opacity-70"
@@ -66,7 +66,7 @@ export function AddToCartButton({
           </>
         ) : (
           <>
-            <Plus className="h-4 w-4" /> {hasOptions ? "Add to Cart" : label}
+            <Plus className="h-4 w-4" /> {hasOptions ? "Add to Bag" : label}
           </>
         )}
       </button>

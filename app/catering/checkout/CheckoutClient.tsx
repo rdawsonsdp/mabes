@@ -185,7 +185,7 @@ export function CheckoutClient() {
   if (state.items.length === 0) {
     return (
       <div className="mx-auto max-w-2xl px-6 py-20 text-center">
-        <h1 className="font-display text-h2 text-ink">Your catering cart is empty</h1>
+        <h1 className="font-display text-h2 text-ink">Your catering order is empty</h1>
         <a
           href="/catering/menu"
           className="font-display mt-6 inline-block rounded-pill bg-maroon px-8 py-3 text-small uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon"

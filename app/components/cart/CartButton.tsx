@@ -11,7 +11,7 @@ export function CartButton({ className = "" }: { className?: string }) {
   return (
     <button
       onClick={openCart}
-      aria-label={`Open cart${count ? `, ${count} item${count === 1 ? "" : "s"}` : ""}`}
+      aria-label={`Open bag${count ? `, ${count} item${count === 1 ? "" : "s"}` : ""}`}
       className={`relative inline-flex items-center justify-center text-ink transition-colors hover:text-copper ${className}`}
     >
       <Bag className="h-6 w-6" />

@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
     // ---- shape + field validation ----
     if (!Array.isArray(body.items) || body.items.length === 0) {
-      return bad("Your catering cart is empty.");
+      return bad("Your catering order is empty.");
     }
     if (!body.customer?.name?.trim()) return bad("Please provide a contact name.");
     if (!body.customer?.email?.trim() || !EMAIL_RE.test(body.customer.email)) {

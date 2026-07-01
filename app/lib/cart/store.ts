@@ -171,7 +171,7 @@ class SupabaseCartStore implements CartStore {
         .update({ quantity: clampQty(match.quantity + quantity) })
         .eq("id", match.id)
         .eq("cart_id", cartId);
-      if (error) throw new Error(`Add to cart failed: ${error.message}`);
+      if (error) throw new Error(`Add to bag failed: ${error.message}`);
       return this.loadCartByItsId(cartId);
     }
 
@@ -190,7 +190,7 @@ class SupabaseCartStore implements CartStore {
       })
       .select("id")
       .single();
-    if (itemErr) throw new Error(`Add to cart failed: ${itemErr.message}`);
+    if (itemErr) throw new Error(`Add to bag failed: ${itemErr.message}`);
 
     if (modifiers.length > 0) {
       const { error: modErr } = await supabase.from("cart_item_modifiers").insert(
@@ -201,7 +201,7 @@ class SupabaseCartStore implements CartStore {
           price_cents: m.priceCents,
         }))
       );
-      if (modErr) throw new Error(`Add to cart failed: ${modErr.message}`);
+      if (modErr) throw new Error(`Add to bag failed: ${modErr.message}`);
     }
     return this.loadCartByItsId(cartId);
   }
@@ -251,11 +251,11 @@ class SupabaseCartStore implements CartStore {
       .single<{ order_id: string; order_number: number; total_cents: number }>();
     if (error) {
       if (error.message?.includes("CART_EMPTY")) {
-        throw new UserError("Your cart is empty.");
+        throw new UserError("Your bag is empty.");
       }
       throw new Error(`Checkout failed: ${error.message}`);
     }
-    if (!data) throw new UserError("Your cart is empty.");
+    if (!data) throw new UserError("Your bag is empty.");
     return {
       orderId: String(data.order_id),
       orderNumber: num(data.order_number),

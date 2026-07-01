@@ -39,7 +39,7 @@
   --text-xs: 0.75rem;      /* 12px */
 
   /* misc */
-  --radius-pill: 50px;
+  --radius-pill: 0px; /* squared buttons (was 50px pill) — clean, Chipotle-style */
   --shadow-soft: 0 4px 4px rgba(0, 0, 0, 0.02);
   --shadow-float: 2px 8px 60px -2px rgba(0, 0, 0, 0.2);
 }

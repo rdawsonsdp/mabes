@@ -73,7 +73,7 @@ export function validateModifierSelection(
 
 /** Aggregate gate for the cart drawer's "Proceed to checkout" button. */
 export function canCheckout(state: CateringCartState, now: Date = new Date()): ValidationResult {
-  if (state.items.length === 0) return { ok: false, message: "Your catering cart is empty." };
+  if (state.items.length === 0) return { ok: false, message: "Your catering order is empty." };
   const min = validateMinimum(state.subtotalCents);
   if (!min.ok) return min;
   const lead = validateLeadTime(state.eventDate, now);

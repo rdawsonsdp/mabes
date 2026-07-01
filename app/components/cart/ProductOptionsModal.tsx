@@ -96,7 +96,7 @@ export function ProductOptionsModal({
     });
     setSubmitting(false);
     if (res.ok) onClose();
-    else setError(res.error ?? "Could not add to cart.");
+    else setError(res.error ?? "Could not add to bag.");
   }
 
   return (
@@ -274,7 +274,7 @@ export function ProductOptionsModal({
             {submitting ? (
               <Spinner className="h-4 w-4 animate-spin" />
             ) : (
-              <>Add to Cart · {formatCents(total)}</>
+              <>Add to Bag · {formatCents(total)}</>
             )}
           </button>
         </div>

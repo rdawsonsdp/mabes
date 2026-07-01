@@ -50,7 +50,7 @@ export function CateringCartDrawer() {
           </h2>
           <button
             onClick={closeCart}
-            aria-label="Close cart"
+            aria-label="Close order"
             className="rounded-full p-1.5 text-warm-gray transition-colors hover:bg-cream hover:text-ink"
           >
             <Close className="h-5 w-5" />

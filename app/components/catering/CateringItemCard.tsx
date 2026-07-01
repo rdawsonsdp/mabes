@@ -25,10 +25,11 @@ export function CateringItemCard({
       type="button"
       onClick={() => onSelect(product)}
       aria-label={`Add ${product.name}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-copper/20 bg-paper text-left shadow-soft transition-shadow hover:shadow-float"
+      className="group relative flex flex-col self-start overflow-hidden rounded-2xl border border-copper/20 bg-paper text-left shadow-soft transition-shadow hover:shadow-float"
     >
-      <div className="relative aspect-[4/3] w-full bg-cream">
-        {product.image ? (
+      {/* Only show the image area when there's a real photo — no blank placeholder box. */}
+      {product.image && (
+        <div className="relative aspect-[4/3] w-full bg-cream">
           <Image
             src={product.image}
             alt={product.name}
@@ -36,16 +37,9 @@ export function CateringItemCard({
             sizes="(max-width: 640px) 50vw, 33vw"
             className="object-cover"
           />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-cream to-copper/25">
-            <span className="font-display text-xs uppercase tracking-widest text-copper/70">Mabe&apos;s</span>
-          </div>
-        )}
-        <span className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-maroon text-cream shadow-md transition-colors group-hover:bg-copper group-hover:text-maroon">
-          <Plus className="h-4 w-4" />
-        </span>
-      </div>
-      <div className="flex flex-1 flex-col p-3">
+        </div>
+      )}
+      <div className={`flex flex-1 flex-col p-3 ${product.image ? "" : "pr-11"}`}>
         <h3 className="font-display text-body leading-tight text-ink">{product.name}</h3>
         <p className="mt-auto pt-2 font-display text-small text-maroon">{priceLabel}</p>
         {perPerson && (
@@ -54,6 +48,9 @@ export function CateringItemCard({
           </p>
         )}
       </div>
+      <span className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-maroon text-cream shadow-md transition-colors group-hover:bg-copper group-hover:text-maroon">
+        <Plus className="h-4 w-4" />
+      </span>
     </button>
   );
 }

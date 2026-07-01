@@ -9,6 +9,27 @@ import { Plus } from "./icons";
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
+// The menu-level fallback image (breakfast spread vs. paninis).
+function menuBackground(name: string): string {
+  return name.toLowerCase().includes("breakfast") ? "/img/food-4984.jpg" : "/img/food-3029.jpeg";
+}
+
+// A subtle food photo behind each category, matched to its food type. Uses only
+// real Mabe's photos. Categories without a specific match yet (smoothies,
+// sides/drinks, soups & chili) fall back to the menu's own image.
+function sectionBackground(category: string, menuName: string): string {
+  const c = category.toLowerCase();
+  if (c.includes("breakfast") || c.includes("french toast") || c.includes("egg")) return "/img/food-4984.jpg";
+  if (c.includes("salad")) return "/img/catering/salad_bowl.jpg";
+  if (c.includes("sweet") || c.includes("dessert") || c.includes("cookie") || c.includes("treat"))
+    return "/img/catering/cookies.jpg";
+  if (c.includes("wrap")) return "/img/catering/veggie_wrap.jpg";
+  if (c.includes("sandwich") || c.includes("panini") || c.includes("club") || c.includes("sub") || c.includes("melt"))
+    return "/img/food-3029.jpeg";
+  if (c.includes("kid")) return "/img/sandwich-2.jpg";
+  return menuBackground(menuName);
+}
+
 // The price label shown on a menu row: variant-priced items list every size,
 // single-priced items show their price.
 function priceLabel(p: Product): string {
@@ -66,14 +87,28 @@ export function Menus({ menus }: { menus: MenuGroup[] }) {
           </nav>
         </div>
 
-        {/* items grouped by category */}
-        <div className="mt-8 space-y-10 sm:mt-12 sm:space-y-14">
-          {menu.categories.map((sec) => (
-            <div key={sec.category} id={`cat-${slug(sec.category)}`} className="scroll-mt-[190px]">
-              <h3 className="font-display text-h4 uppercase tracking-wide text-maroon sm:text-h3 lg:text-h2">
-                {sec.category}
-              </h3>
-              <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-6 sm:gap-5 lg:grid-cols-3">
+        {/* items grouped by category — each on a subtle food backdrop matched
+            to the category's food type */}
+        <div className="mt-8 space-y-8 sm:mt-12 sm:space-y-10">
+          {menu.categories.map((sec) => {
+            const secBg = sectionBackground(sec.category, menu.menu);
+            return (
+              <div key={sec.category} id={`cat-${slug(sec.category)}`} className="scroll-mt-[190px]">
+                <div className="relative isolate overflow-hidden rounded-2xl border border-copper/10 px-3 py-5 sm:px-5 sm:py-6">
+                  <Image
+                    key={secBg}
+                    src={secBg}
+                    alt=""
+                    aria-hidden
+                    fill
+                    sizes="100vw"
+                    className="-z-10 object-cover"
+                  />
+                  <div aria-hidden className="absolute inset-0 -z-10 bg-paper/88" />
+                  <h3 className="font-display text-h4 uppercase tracking-wide text-maroon sm:text-h3 lg:text-h2">
+                    {sec.category}
+                  </h3>
+                  <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-6 sm:gap-5 lg:grid-cols-3">
                 {sec.products.map((p) => (
                   <ProductCardTrigger
                     key={p.id}
@@ -110,10 +145,12 @@ export function Menus({ menus }: { menus: MenuGroup[] }) {
                       </span>
                     </div>
                   </ProductCardTrigger>
-                ))}
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

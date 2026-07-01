@@ -133,8 +133,8 @@ export function ProductOptionsModal({
         tabIndex={-1}
         className="relative z-10 flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl bg-paper shadow-float outline-none sm:rounded-2xl"
       >
-        {/* hero photo — kept a compact banner so the options/variants stay in view */}
-        <div className="relative h-28 w-full shrink-0 bg-cream sm:h-36">
+        {/* hero photo — slim banner so the options/variants lead */}
+        <div className="relative h-20 w-full shrink-0 bg-cream sm:h-24">
           {img ? (
             <Image
               src={img}

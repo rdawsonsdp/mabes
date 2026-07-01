@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { Product } from "@/app/lib/types";
 import { formatCents } from "@/app/lib/money";
 import { useCart } from "./CartProvider";
 import { useDialog } from "./useDialog";
-import { Close, Minus, Plus, Spinner } from "../icons";
+import { Bag, Close, Plus, Spinner } from "../icons";
 
 // Computes the live unit price as options change — a client mirror of the
 // server pricing in lib/cart/pricing.ts. The server recomputes authoritatively
@@ -49,12 +50,11 @@ export function ProductOptionsModal({
   image?: string | null;
   onClose: () => void;
 }) {
-  const { addItem } = useCart();
+  const { addItem, openCart } = useCart();
   const img = image ?? product.image;
   const init = useMemo(() => defaultSelection(product), [product]);
   const [variantId, setVariantId] = useState<string | null>(init.variantId);
   const [selected, setSelected] = useState<Set<string>>(init.modifiers);
-  const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +62,7 @@ export function ProductOptionsModal({
 
   useDialog(panelRef, true, onClose);
 
-  const total = unitPrice(product, variantId, selected) * quantity;
+  const total = unitPrice(product, variantId, selected);
 
   function toggleModifier(groupSelection: "single" | "multiple", groupModifierIds: string[], id: string, max: number | null) {
     setSelected((prev) => {
@@ -84,22 +84,39 @@ export function ProductOptionsModal({
     });
   }
 
-  async function handleAdd() {
+  async function add(): Promise<boolean> {
     setSubmitting(true);
     setError(null);
     const res = await addItem({
       productId: product.id,
       variantId,
       modifierIds: [...selected],
-      quantity,
+      quantity: 1,
       notes: notes.trim() || null,
     });
     setSubmitting(false);
-    if (res.ok) onClose();
-    else setError(res.error ?? "Could not add to bag.");
+    if (res.ok) return true;
+    setError(res.error ?? "Could not add to bag.");
+    return false;
   }
 
-  return (
+  // Add to bag → close, keep browsing. Go to bag → add, then open the bag.
+  async function handleAdd() {
+    if (await add()) onClose();
+  }
+
+  async function handleAddAndGo() {
+    if (await add()) {
+      onClose();
+      openCart();
+    }
+  }
+
+  // Portal to <body> so the overlay escapes any ancestor stacking context
+  // (e.g. the menu's isolated category panels) and truly covers the whole screen.
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center"
       role="dialog"
@@ -245,40 +262,41 @@ export function ProductOptionsModal({
           {error && <p role="alert" className="text-small text-maroon">{error}</p>}
         </div>
 
-        {/* footer: qty + add */}
-        <div className="flex items-center gap-3 border-t border-copper/20 p-5">
-          <div className="flex items-center gap-3 rounded-pill border border-copper/40 px-2 py-1.5">
-            <button
-              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              aria-label="Decrease quantity"
-              className="rounded-full p-1 text-maroon transition-colors hover:bg-cream disabled:opacity-40"
-              disabled={quantity <= 1}
-            >
-              <Minus className="h-4 w-4" />
-            </button>
-            <span className="w-5 text-center font-display text-ink">{quantity}</span>
-            <button
-              onClick={() => setQuantity((q) => Math.min(99, q + 1))}
-              aria-label="Increase quantity"
-              className="rounded-full p-1 text-maroon transition-colors hover:bg-cream"
-            >
-              <Plus className="h-4 w-4" />
-            </button>
-          </div>
+        {/* footer: two icon actions — Add to Bag + Go to Bag */}
+        <div className="flex items-stretch gap-3 border-t border-copper/20 p-4">
           <button
             onClick={handleAdd}
             disabled={submitting}
             aria-busy={submitting}
-            className="font-display flex flex-1 items-center justify-center gap-2 rounded-pill bg-maroon px-6 py-3 text-small uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon disabled:opacity-70"
+            aria-label={`Add to bag, ${formatCents(total)}`}
+            className="flex flex-1 items-center justify-center gap-2.5 bg-maroon px-6 py-4 text-cream transition-colors hover:bg-copper hover:text-maroon disabled:opacity-70"
           >
             {submitting ? (
-              <Spinner className="h-4 w-4 animate-spin" />
+              <Spinner className="h-6 w-6 animate-spin" />
             ) : (
-              <>Add to Bag · {formatCents(total)}</>
+              <>
+                <span className="relative inline-flex">
+                  <Bag className="h-6 w-6" />
+                  <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-cream text-maroon">
+                    <Plus className="h-3 w-3" />
+                  </span>
+                </span>
+                <span className="font-display text-body">{formatCents(total)}</span>
+              </>
             )}
+          </button>
+          <button
+            onClick={handleAddAndGo}
+            disabled={submitting}
+            aria-label="Add and go to bag"
+            className="flex items-center justify-center gap-1 border border-maroon/40 px-6 py-4 text-maroon transition-colors hover:bg-cream disabled:opacity-70"
+          >
+            <Bag className="h-6 w-6" />
+            <span className="font-display text-h4 leading-none">›</span>
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

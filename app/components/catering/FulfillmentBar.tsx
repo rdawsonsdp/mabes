@@ -1,7 +1,7 @@
 // mabes/app/components/catering/FulfillmentBar.tsx
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useCateringCart } from "./CateringCartProvider";
 import { earliestEventDate } from "@/app/lib/catering/config";
 import { validateLeadTime } from "@/app/lib/catering/validation";
@@ -12,6 +12,7 @@ export function FulfillmentBar() {
   const { state, setFulfillment, setEvent } = useCateringCart();
   const minDate = useMemo(() => earliestEventDate(), []);
   const lead = validateLeadTime(state.eventDate);
+  const [open, setOpen] = useState(false);
 
   const tabs: { type: FulfillmentType; label: string }[] = [
     { type: "pickup", label: "Pickup" },
@@ -21,8 +22,26 @@ export function FulfillmentBar() {
   return (
     <section
       aria-label="Fulfillment and event details"
-      className="sticky top-0 z-30 border-b border-copper/20 bg-paper/95 px-4 py-3 backdrop-blur"
+      className="sticky top-0 z-30 border-b border-copper/20 bg-paper/95 px-4 py-2.5 backdrop-blur sm:py-3"
     >
+      {/* compact summary (mobile only) */}
+      <div className="mx-auto flex max-w-5xl items-center justify-between sm:hidden">
+        <p className="text-small text-ink">
+          <span className="font-display capitalize text-maroon">{state.fulfillmentType}</span>
+          <span className="text-warm-gray"> · {state.eventDate || "add event date"}</span>
+        </p>
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          className="font-display text-small text-copper underline underline-offset-4 hover:text-maroon"
+        >
+          {open ? "Done" : "Change"}
+        </button>
+      </div>
+
+      {/* full controls: collapsed on mobile until "Change", always shown on desktop */}
+      <div className={`${open ? "mt-3 block" : "hidden"} sm:mt-0 sm:block`}>
       <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         {/* pickup / delivery toggle */}
         <div>
@@ -92,6 +111,7 @@ export function FulfillmentBar() {
             />
           </div>
         </div>
+      </div>
       </div>
 
       {state.eventDate && !lead.ok && (

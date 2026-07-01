@@ -26,7 +26,7 @@ export function CateringStore({ menus }: { menus: MenuGroup[] }) {
   return (
     <div className="min-h-screen bg-cream">
       <header
-        className="relative overflow-hidden bg-maroon px-4 py-16 text-cream"
+        className="relative overflow-hidden bg-maroon px-4 py-8 text-cream sm:py-16"
         style={{
           backgroundImage:
             "linear-gradient(rgba(123,37,37,0.45), rgba(45,36,36,0.55)), url('/img/catering/catering-hero.avif')",
@@ -36,7 +36,7 @@ export function CateringStore({ menus }: { menus: MenuGroup[] }) {
       >
         <div className="relative mx-auto max-w-5xl">
           <p className="font-display text-xs uppercase tracking-widest text-cream/80">Mabe&apos;s Catering</p>
-          <h1 className="font-display text-h1 leading-tight drop-shadow-sm">Build Your Catering Order</h1>
+          <h1 className="font-display text-h2 leading-tight drop-shadow-sm sm:text-h1">Build Your Catering Order</h1>
           <p className="mt-2 max-w-2xl text-small text-cream/90">
             Order minimum $60 · 2 days&apos; notice · pickup or delivery.
           </p>
@@ -74,12 +74,12 @@ export function CateringStore({ menus }: { menus: MenuGroup[] }) {
         <CategoryTabs categories={categoryNames} active={active} onSelect={setActive} />
       )}
 
-      <main className="mx-auto max-w-5xl px-4 pb-28 pt-6">
+      <main className="mx-auto max-w-5xl px-3 pb-28 pt-5 sm:px-4">
         <h2 className="font-display text-h3 text-ink">{active}</h2>
         {activeProducts.length === 0 ? (
           <p className="mt-4 text-warm-gray">Nothing here yet — check back soon.</p>
         ) : (
-          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
             {activeProducts.map((p) => (
               <CateringItemCard key={p.id} product={p} onSelect={setModalProduct} />
             ))}
@@ -89,15 +89,17 @@ export function CateringStore({ menus }: { menus: MenuGroup[] }) {
 
       <Footer />
 
-      {/* floating view-order button */}
+      {/* Sticky cart bar: full-width on mobile, centered pill on desktop */}
       {state.itemCount > 0 && (
-        <button
-          onClick={openCart}
-          className="font-display fixed bottom-5 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3 rounded-pill bg-maroon px-6 py-3.5 text-small uppercase tracking-widest text-cream shadow-float transition-colors hover:bg-copper hover:text-maroon"
-        >
-          <Bag className="h-5 w-5" />
-          View order · {state.itemCount} {state.itemCount === 1 ? "item" : "items"} · {formatCents(state.subtotalCents)}
-        </button>
+        <div className="fixed inset-x-0 bottom-0 z-40 p-3 sm:bottom-5 sm:flex sm:justify-center sm:bg-transparent sm:p-0">
+          <button
+            onClick={openCart}
+            className="font-display flex w-full items-center justify-center gap-3 rounded-pill bg-maroon px-6 py-3.5 text-small uppercase tracking-widest text-cream shadow-float transition-colors hover:bg-copper hover:text-maroon sm:w-auto"
+          >
+            <Bag className="h-5 w-5" />
+            View order · {state.itemCount} {state.itemCount === 1 ? "item" : "items"} · {formatCents(state.subtotalCents)}
+          </button>
+        </div>
       )}
 
       {modalProduct && (

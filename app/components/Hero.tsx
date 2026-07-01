@@ -16,7 +16,7 @@ export function Hero() {
         sizes="100vw"
         className="-z-10 object-cover"
       />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/75 via-black/40 to-black/10" />
 
       <div className="mx-auto flex max-w-[1280px] flex-col gap-6 px-6 py-24 md:py-36">
         <OpenToday />

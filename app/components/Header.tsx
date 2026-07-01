@@ -61,6 +61,23 @@ export function Header() {
               </a>
             )
           )}
+          {/* Delivery partners — TODO: replace hrefs with Mabe's store links */}
+          <a
+            href="https://www.ubereats.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-display rounded-pill bg-black px-3 py-1.5 text-xs tracking-wide text-white transition-opacity hover:opacity-80"
+          >
+            Uber&nbsp;Eats
+          </a>
+          <a
+            href="https://www.doordash.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-display rounded-pill bg-[#EB1700] px-3 py-1.5 text-xs tracking-wide text-white transition-opacity hover:opacity-80"
+          >
+            DoorDash
+          </a>
           <a
             href="#instagram"
             aria-label="Instagram"
@@ -122,6 +139,24 @@ export function Header() {
           >
             Order Online
           </a>
+          <div className="mt-3 flex gap-2">
+            <a
+              href="https://www.ubereats.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-display flex-1 rounded-pill bg-black py-2.5 text-center text-small tracking-wide text-white"
+            >
+              Uber Eats
+            </a>
+            <a
+              href="https://www.doordash.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-display flex-1 rounded-pill bg-[#EB1700] py-2.5 text-center text-small tracking-wide text-white"
+            >
+              DoorDash
+            </a>
+          </div>
           <a
             href="#instagram"
             onClick={() => setOpen(false)}

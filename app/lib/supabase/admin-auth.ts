@@ -2,9 +2,15 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createServerClient } from "@supabase/ssr";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
+import { ADMIN_AUTH_ENABLED } from "./admin-auth-flag";
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+
+// Stand-in admin identity returned while the login is disabled
+// (ADMIN_AUTH_ENABLED === false). Lets pages and API routes treat every
+// request as an authorized admin without a real Supabase session.
+const DEV_ADMIN = { id: "dev-admin", email: "admin@mabes.com" } as unknown as User;
 
 /**
  * Cookie-aware Supabase client for Server Components and Route Handlers.
@@ -34,6 +40,7 @@ export async function createServerSupabase(): Promise<SupabaseClient> {
 
 /** The signed-in Supabase user, or null. */
 export async function getAdminUser(): Promise<User | null> {
+  if (!ADMIN_AUTH_ENABLED) return DEV_ADMIN; // login temporarily removed
   const supabase = await createServerSupabase();
   const { data, error } = await supabase.auth.getUser();
   if (error) return null;
@@ -42,6 +49,7 @@ export async function getAdminUser(): Promise<User | null> {
 
 /** For server pages: redirect to the login screen when there is no admin user. */
 export async function requireAdmin(): Promise<User> {
+  if (!ADMIN_AUTH_ENABLED) return DEV_ADMIN; // login temporarily removed
   const user = await getAdminUser();
   if (!user) redirect("/admin/login");
   return user;
@@ -52,6 +60,7 @@ export async function requireAdmin(): Promise<User> {
  * visitor whose signed-in state is `hasUser` be redirected to /admin/login?
  */
 export function shouldRedirectToLogin(pathname: string, hasUser: boolean): boolean {
+  if (!ADMIN_AUTH_ENABLED) return false; // login temporarily removed
   if (!pathname.startsWith("/admin")) return false;
   if (pathname === "/admin/login") return false;
   return !hasUser;

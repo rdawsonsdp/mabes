@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createBrowserSupabase } from "@/app/lib/supabase/browser";
+import { ADMIN_AUTH_ENABLED } from "@/app/lib/supabase/admin-auth-flag";
 
 /** Top bar for every admin page: brand + title + sign-out. */
 export function AdminBar({ title }: { title: string }) {
@@ -23,12 +24,14 @@ export function AdminBar({ title }: { title: string }) {
         <span className="text-cream/50">/</span>
         <span className="font-display text-h4">{title}</span>
       </div>
-      <button
-        onClick={signOut}
-        className="font-display rounded-pill border border-cream/40 px-4 py-1.5 text-small tracking-wide transition-colors hover:bg-cream hover:text-maroon"
-      >
-        Sign out
-      </button>
+      {ADMIN_AUTH_ENABLED && (
+        <button
+          onClick={signOut}
+          className="font-display rounded-pill border border-cream/40 px-4 py-1.5 text-small tracking-wide transition-colors hover:bg-cream hover:text-maroon"
+        >
+          Sign out
+        </button>
+      )}
     </header>
   );
 }

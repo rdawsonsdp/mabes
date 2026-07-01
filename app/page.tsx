@@ -12,6 +12,7 @@ import { VisitUs } from "./components/VisitUs";
 import { Footer } from "./components/Footer";
 import { CartProvider } from "./components/cart/CartProvider";
 import { CartDrawer } from "./components/cart/CartDrawer";
+import { VipPopup } from "./components/VipPopup";
 import { catalog, groupByMenu } from "./lib/catalog/catalog";
 import { getCartAction } from "./lib/cart/actions";
 
@@ -52,6 +53,7 @@ export default async function Home() {
       <StickyOrderBar />
       <CateringModal />
       <CartDrawer />
+      <VipPopup />
     </CartProvider>
   );
 }

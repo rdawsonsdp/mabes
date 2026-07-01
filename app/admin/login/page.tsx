@@ -5,8 +5,9 @@
 export const dynamic = "force-dynamic";
 
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { createBrowserSupabase } from "@/app/lib/supabase/browser";
+import { ADMIN_AUTH_ENABLED } from "@/app/lib/supabase/admin-auth-flag";
 
 const field =
   "w-full rounded-md border border-copper/40 bg-paper px-3 py-2.5 text-body text-ink outline-none focus:border-copper";
@@ -84,6 +85,8 @@ function LoginForm() {
 }
 
 export default function AdminLoginPage() {
+  // Login is temporarily removed — send anyone who lands here into the admin.
+  if (!ADMIN_AUTH_ENABLED) redirect("/admin/catering");
   return (
     <div className="flex min-h-screen items-center justify-center bg-cream px-6">
       <Suspense>

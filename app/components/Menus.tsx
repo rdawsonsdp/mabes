@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import type { MenuGroup, Product } from "@/app/lib/types";
 import { formatCents } from "@/app/lib/money";
@@ -18,9 +19,10 @@ function priceLabel(p: Product): string {
   return p.basePriceCents != null ? formatCents(p.basePriceCents) : "";
 }
 
-// Menu page: big MENUS title, menu-type tabs + a cart button, a category
-// sub-nav, then a grid of items with names, prices, descriptions, and an
-// Add-to-Cart action. Content + pricing come from the catalog (Supabase).
+// Menu page: MENUS title, menu-type tabs + a cart button, a sticky category
+// quick-nav pill strip, then a mobile-first grid of item cards with names,
+// prices, descriptions, and an Add-to-Cart action. Content + pricing come
+// from the catalog (Supabase).
 export function Menus({ menus }: { menus: MenuGroup[] }) {
   const [active, setActive] = useState(0);
   const { cart, openCart } = useCart();
@@ -29,20 +31,26 @@ export function Menus({ menus }: { menus: MenuGroup[] }) {
   if (!menu) return null;
 
   return (
-    <section id="menus" className="scroll-mt-32 bg-paper py-20">
-      <div className="mx-auto max-w-[1200px] px-6">
-        <h2 className="font-display text-center text-h1 uppercase tracking-wide text-ink md:text-hero">
-          Menus
-        </h2>
+    <section id="menus" className="scroll-mt-32 bg-paper py-12 sm:py-20">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+        <div className="text-center">
+          <h2 className="font-display text-h2 uppercase tracking-wide text-ink sm:text-h1 md:text-hero">
+            Menus
+          </h2>
+          <p className="mt-2 font-display text-small uppercase tracking-wide text-copper sm:text-h4">
+            The Mabe&apos;s Menu
+          </p>
+        </div>
 
-        {/* menu-type tabs + cart — sticky so ordering stays one tap away */}
-        <div className="sticky top-[88px] z-20 -mx-6 mt-8 flex flex-col items-center gap-3 bg-paper/95 px-6 py-3 backdrop-blur lg:top-[100px]">
+        {/* sticky control bar: menu switcher + cart, then category quick-nav pills */}
+        <div className="sticky top-[88px] z-20 -mx-4 mt-6 space-y-2.5 border-b border-copper/10 bg-paper/95 px-4 py-2.5 backdrop-blur sm:-mx-6 sm:mt-8 sm:space-y-3 sm:px-6 sm:py-3 lg:top-[100px]">
+          {/* menu switcher + cart */}
           <div className="flex flex-wrap items-center justify-center gap-2">
             {menus.map((m, i) => (
               <button
                 key={m.menu}
                 onClick={() => setActive(i)}
-                className={`font-display px-7 py-2.5 text-small uppercase tracking-widest transition-colors ${
+                className={`font-display rounded-pill px-4 py-2 text-xs uppercase tracking-widest transition-colors sm:px-7 sm:text-small ${
                   i === active ? "bg-copper text-cream" : "border border-copper/50 text-copper hover:bg-cream"
                 }`}
               >
@@ -51,51 +59,70 @@ export function Menus({ menus }: { menus: MenuGroup[] }) {
             ))}
             <button
               onClick={openCart}
-              className="font-display inline-flex items-center gap-2 rounded-pill bg-maroon px-7 py-2.5 text-small uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon"
+              className="font-display inline-flex items-center gap-1.5 rounded-pill bg-maroon px-4 py-2 text-xs uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon sm:px-7 sm:text-small"
             >
               <Bag className="h-4 w-4" />
-              {cart.itemCount > 0 ? `View Cart · ${formatCents(cart.subtotalCents)}` : "View Cart"}
+              {cart.itemCount > 0 ? `Cart · ${formatCents(cart.subtotalCents)}` : "Cart"}
             </button>
           </div>
-        </div>
 
-        {/* subtitle */}
-        <div className="mt-12 text-center">
-          <p className="font-display text-h4 uppercase tracking-wide text-copper">The Mabe&apos;s Menu</p>
-        </div>
-
-        {/* category sub-nav */}
-        <nav className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          {menu.categories.map((sec, i) => (
-            <span key={sec.category} className="flex items-center gap-x-6">
-              {i > 0 && <span className="h-4 w-px bg-copper/40" aria-hidden />}
+          {/* category quick-nav pills — horizontally scrollable on mobile */}
+          <nav
+            aria-label="Jump to a category"
+            className="flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:justify-center sm:overflow-visible"
+          >
+            {menu.categories.map((sec) => (
               <a
+                key={sec.category}
                 href={`#cat-${slug(sec.category)}`}
-                className="font-display text-small uppercase tracking-wide text-copper transition-colors hover:text-ink"
+                className="font-display shrink-0 whitespace-nowrap rounded-pill border border-copper/40 bg-paper px-4 py-1.5 text-xs uppercase tracking-widest text-copper transition-colors hover:bg-copper hover:text-cream"
               >
                 {sec.category}
               </a>
-            </span>
-          ))}
-        </nav>
+            ))}
+          </nav>
+        </div>
 
         {/* items grouped by category */}
-        <div className="mt-16 space-y-16">
+        <div className="mt-8 space-y-10 sm:mt-12 sm:space-y-14">
           {menu.categories.map((sec) => (
-            <div key={sec.category} id={`cat-${slug(sec.category)}`} className="scroll-mt-32">
-              <h3 className="font-display text-h2 uppercase tracking-wide text-maroon">{sec.category}</h3>
-              <div className="mt-8 grid gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+            <div key={sec.category} id={`cat-${slug(sec.category)}`} className="scroll-mt-[190px]">
+              <h3 className="font-display text-h4 uppercase tracking-wide text-maroon sm:text-h3 lg:text-h2">
+                {sec.category}
+              </h3>
+              <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-6 sm:gap-5 lg:grid-cols-3">
                 {sec.products.map((p) => (
-                  <div key={p.id} className="flex flex-col gap-2">
-                    <div className="flex items-baseline justify-between gap-3 border-b border-copper/25 pb-2">
-                      <h4 className="font-display text-h3 uppercase leading-tight text-ink">{p.name}</h4>
+                  <div
+                    key={p.id}
+                    className="flex flex-col overflow-hidden rounded-xl border border-copper/15 bg-paper shadow-soft"
+                  >
+                    {p.image && (
+                      <div className="relative aspect-[4/3] w-full bg-cream">
+                        <Image
+                          src={p.image}
+                          alt={p.name}
+                          fill
+                          sizes="(min-width: 1024px) 33vw, 50vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-1 flex-col gap-1.5 p-3 sm:p-4">
+                      <h4 className="font-display text-body uppercase leading-tight text-ink sm:text-h4">
+                        {p.name}
+                      </h4>
                       {priceLabel(p) && (
-                        <span className="shrink-0 font-display text-small text-maroon">{priceLabel(p)}</span>
+                        <span className="font-display text-small text-maroon">{priceLabel(p)}</span>
                       )}
-                    </div>
-                    {p.description && <p className="text-small text-warm-gray">{p.description}</p>}
-                    <div className="mt-1">
-                      <AddToCartButton product={p} />
+                      {p.description && (
+                        <p className="line-clamp-2 text-xs text-warm-gray sm:text-small">{p.description}</p>
+                      )}
+                      <div className="mt-auto pt-2">
+                        <AddToCartButton
+                          product={p}
+                          className="font-display inline-flex w-full items-center justify-center gap-1.5 rounded-pill bg-maroon px-3 py-2 text-xs uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon disabled:opacity-70 sm:text-small"
+                        />
+                      </div>
                     </div>
                   </div>
                 ))}

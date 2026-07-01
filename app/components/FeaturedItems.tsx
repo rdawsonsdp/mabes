@@ -55,56 +55,57 @@ const FAVORITES: Featured[] = [
 ];
 
 // The food, front and center: photo-led cards for the items people come back
-// for, each one tap to add to the cart.
+// for, each one tap to add to the cart. Two-up compact grid on phones, up to
+// four across on desktop.
 export function FeaturedItems({ products }: { products: Product[] }) {
   const bySlug = new Map(products.map((p) => [p.slug, p]));
 
   return (
-    <section id="favorites" className="scroll-mt-32 bg-cream py-20">
-      <div className="mx-auto max-w-[1280px] px-6">
-        <div className="flex flex-col items-center gap-3 text-center">
-          <h2 className="font-display text-h1 text-maroon md:text-hero">The Favorites</h2>
-          <p className="max-w-2xl text-h4 leading-snug text-ink/80">
+    <section id="favorites" className="scroll-mt-32 bg-cream py-12 sm:py-20">
+      <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
+        <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
+          <h2 className="font-display text-h2 text-maroon sm:text-h1 md:text-hero">The Favorites</h2>
+          <p className="max-w-2xl text-small leading-snug text-ink/80 sm:text-h4">
             The sandwiches our regulars cross town for — made to order, every time.
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-6 lg:grid-cols-4">
           {FAVORITES.map((item) => {
             const product = bySlug.get(item.slug);
             return (
               <div
                 key={item.slug}
-                className="group flex flex-col overflow-hidden bg-paper shadow-soft transition-shadow hover:shadow-float"
+                className="group flex flex-col overflow-hidden rounded-xl bg-paper shadow-soft transition-shadow hover:shadow-float"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
                     src={item.image}
                     alt={item.alt}
                     fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    sizes="(min-width: 1024px) 25vw, 50vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <span className="font-display absolute left-3 top-3 rounded-pill bg-maroon px-3 py-1 text-xs uppercase tracking-widest text-cream">
+                  <span className="font-display absolute left-2 top-2 rounded-pill bg-maroon px-2 py-0.5 text-[10px] uppercase tracking-widest text-cream sm:left-3 sm:top-3 sm:px-3 sm:py-1 sm:text-xs">
                     {item.badge}
                   </span>
                 </div>
-                <div className="flex flex-1 flex-col gap-2 p-5">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="font-display text-h4 leading-tight text-ink">{item.name}</h3>
-                    <span className="font-display shrink-0 text-h4 text-copper">{item.price}</span>
+                <div className="flex flex-1 flex-col gap-1.5 p-3 sm:gap-2 sm:p-5">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <h3 className="font-display text-body leading-tight text-ink sm:text-h4">{item.name}</h3>
+                    <span className="font-display shrink-0 text-body text-copper sm:text-h4">{item.price}</span>
                   </div>
-                  <p className="text-small text-warm-gray">{item.desc}</p>
-                  <div className="mt-auto pt-3">
+                  <p className="line-clamp-2 text-xs text-warm-gray sm:text-small">{item.desc}</p>
+                  <div className="mt-auto pt-2 sm:pt-3">
                     {product ? (
                       <AddToCartButton
                         product={product}
-                        className="font-display inline-flex w-full items-center justify-center gap-1.5 rounded-pill bg-maroon px-4 py-2.5 text-small uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon disabled:opacity-70"
+                        className="font-display inline-flex w-full items-center justify-center gap-1.5 rounded-pill bg-maroon px-3 py-2 text-xs uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon disabled:opacity-70 sm:px-4 sm:py-2.5 sm:text-small"
                       />
                     ) : (
                       <a
                         href="#menus"
-                        className="font-display inline-flex w-full items-center justify-center rounded-pill border border-copper px-4 py-2.5 text-small uppercase tracking-widest text-copper transition-colors hover:bg-copper hover:text-cream"
+                        className="font-display inline-flex w-full items-center justify-center rounded-pill border border-copper px-3 py-2 text-xs uppercase tracking-widest text-copper transition-colors hover:bg-copper hover:text-cream sm:px-4 sm:py-2.5 sm:text-small"
                       >
                         See the Menu
                       </a>
@@ -116,7 +117,7 @@ export function FeaturedItems({ products }: { products: Product[] }) {
           })}
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-4 text-center">
+        <div className="mt-8 flex flex-col items-center gap-4 text-center sm:mt-10">
           <p className="text-small italic text-warm-gray">
             Make any sandwich a combo — chips and a drink for $2 more.
           </p>

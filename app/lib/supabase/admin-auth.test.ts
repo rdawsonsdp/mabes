@@ -9,6 +9,10 @@ vi.mock("@supabase/ssr", () => ({
   createServerClient: () => ({ auth: { getUser } }),
 }));
 vi.mock("next/navigation", () => ({ redirect: vi.fn() }));
+// Exercise the real auth logic even though the login is currently disabled in
+// production (ADMIN_AUTH_ENABLED === false). These assertions describe the
+// behavior that returns when the flag is flipped back on.
+vi.mock("./admin-auth-flag", () => ({ ADMIN_AUTH_ENABLED: true }));
 
 import { getAdminUser, shouldRedirectToLogin } from "./admin-auth";
 

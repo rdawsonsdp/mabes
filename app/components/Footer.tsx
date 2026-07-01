@@ -8,14 +8,14 @@ export function Footer() {
   return (
     <footer className="bg-paper">
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 px-6 py-20 md:grid-cols-[1.1fr_1.4fr_1fr]">
-        {/* logo badge */}
+        {/* logo */}
         <div className="flex items-start">
           <Image
-            src="/img/mabes-logo.png"
+            src="/img/mabes-sandwich-logo.png"
             alt="Mabe's Sandwich Shop"
-            width={300}
-            height={300}
-            className="w-44 rounded-md shadow-soft"
+            width={275}
+            height={198}
+            className="w-44"
           />
         </div>
 

@@ -49,7 +49,7 @@ export function CateringStore({ menus }: { menus: MenuGroup[] }) {
           <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
             <div>
               <p className="font-display text-xs uppercase tracking-widest text-copper">
-                ★ Featured · the easiest way to cater
+                ★ Featured · make your next company event a treat
               </p>
               <p className="font-display text-h4 leading-tight text-ink">
                 Boxed Lunches — per person, 10-guest minimum

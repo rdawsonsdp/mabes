@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Close, Instagram, Menu, Phone } from "./icons";
 import { DOORDASH_HREF, PHONE_HREF, UBER_EATS_HREF } from "./ContactBar";
+import { Logo } from "./Logo";
 import { CartButton } from "./cart/CartButton";
 
 type NavItem = {
@@ -28,11 +29,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-100 bg-paper/95 backdrop-blur">
       <div className="mx-auto flex h-[88px] max-w-[1280px] items-center justify-between gap-6 px-6 lg:h-[100px]">
-        {/* wordmark */}
-        <a href="/" className="flex flex-col leading-none">
-          <span className="font-display text-h4 text-ink">Mabe&apos;s</span>
-          <span className="font-display text-xs tracking-[0.2em] text-copper">Sandwich Shop</span>
-        </a>
+        {/* logo */}
+        <Logo />
 
         {/* desktop nav */}
         <nav className="hidden flex-1 items-center justify-end gap-5 xl:gap-7 lg:flex">

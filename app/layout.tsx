@@ -21,7 +21,8 @@ export const metadata: Metadata = {
   title: "Mabe's Sandwich Shop in Chicago, IL",
   description:
     "We offer made to order sandwiches, salads and smoothies served fresh daily. Your neighborhood sandwich shop. Located in Chicago, IL.",
-  icons: { icon: "/favicon-icon.png" },
+  // Favicon (app/icon.png), Apple touch icon (app/apple-icon.png), and the PWA
+  // manifest (app/manifest.ts) are picked up automatically by Next.
 };
 
 export default function RootLayout({

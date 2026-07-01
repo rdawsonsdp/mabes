@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Close, Instagram, Menu, Phone } from "@/app/components/icons";
 import { DOORDASH_HREF, PHONE_HREF, UBER_EATS_HREF } from "@/app/components/ContactBar";
+import { Logo } from "@/app/components/Logo";
 
 // Site navigation for the catering pages. Mirrors the main site Header so
 // navigation stays consistent, but without the regular CartButton (the
@@ -26,11 +27,8 @@ export function CateringSiteNav() {
   return (
     <header className="border-b border-gray-100 bg-paper/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-6 px-4 sm:px-6 lg:h-20">
-        {/* wordmark */}
-        <a href="/" className="flex flex-col leading-none">
-          <span className="font-display text-h4 text-ink">Mabe&apos;s</span>
-          <span className="font-display text-xs tracking-[0.2em] text-copper">Sandwich Shop</span>
-        </a>
+        {/* logo */}
+        <Logo />
 
         {/* desktop nav */}
         <nav className="hidden flex-1 items-center justify-end gap-5 xl:gap-7 lg:flex">

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createBrowserSupabase } from "@/app/lib/supabase/browser";
@@ -18,6 +19,14 @@ export function AdminBar({ title }: { title: string }) {
   return (
     <header className="flex items-center justify-between bg-maroon px-6 py-4 text-cream">
       <div className="flex items-center gap-3">
+        <Image
+          src="/img/mabes-sandwich-logo.png"
+          alt=""
+          aria-hidden
+          width={275}
+          height={198}
+          className="h-9 w-auto"
+        />
         <Link href="/admin/catering" className="font-display text-h4 hover:text-copper">
           Mabe&apos;s Admin
         </Link>

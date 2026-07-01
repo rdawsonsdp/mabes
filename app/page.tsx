@@ -5,7 +5,6 @@ import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { FeaturedItems } from "./components/FeaturedItems";
 import { Menus } from "./components/Menus";
-import { MoreFromMabes } from "./components/MoreFromMabes";
 import { CaptionBand } from "./components/CaptionBand";
 import { VisitUs } from "./components/VisitUs";
 import { Footer } from "./components/Footer";
@@ -33,7 +32,6 @@ export default async function Home() {
         <Hero />
         <FeaturedItems products={products} />
         <Menus menus={menus} />
-        <MoreFromMabes />
 
         <CaptionBand
           id="about"

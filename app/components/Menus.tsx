@@ -5,8 +5,7 @@ import { useState } from "react";
 import type { MenuGroup, Product } from "@/app/lib/types";
 import { formatCents } from "@/app/lib/money";
 import { ProductCardTrigger } from "./menu/ProductCardTrigger";
-import { useCart } from "./cart/CartProvider";
-import { Bag, Plus } from "./icons";
+import { Plus } from "./icons";
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
@@ -25,7 +24,6 @@ function priceLabel(p: Product): string {
 // from the catalog (Supabase).
 export function Menus({ menus }: { menus: MenuGroup[] }) {
   const [active, setActive] = useState(0);
-  const { cart, openCart } = useCart();
   const menu = menus[active];
 
   if (!menu) return null;
@@ -49,13 +47,6 @@ export function Menus({ menus }: { menus: MenuGroup[] }) {
                 {m.menu}
               </button>
             ))}
-            <button
-              onClick={openCart}
-              className="font-display inline-flex items-center gap-1.5 rounded-pill bg-maroon px-4 py-2 text-xs uppercase tracking-widest text-cream transition-colors hover:bg-copper hover:text-maroon sm:px-7 sm:text-small"
-            >
-              <Bag className="h-4 w-4" />
-              {cart.itemCount > 0 ? `Cart · ${formatCents(cart.subtotalCents)}` : "Cart"}
-            </button>
           </div>
 
           {/* category quick-nav pills — horizontally scrollable on mobile */}

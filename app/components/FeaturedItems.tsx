@@ -65,10 +65,20 @@ export function FeaturedItems({ products }: { products: Product[] }) {
   const bySlug = new Map(products.map((p) => [p.slug, p]));
 
   return (
-    <section id="favorites" className="scroll-mt-32 bg-cream py-12 sm:py-20">
+    <section id="favorites" className="relative isolate scroll-mt-32 overflow-hidden py-12 sm:py-20">
+      {/* food behind the block — keeps the eye on the food */}
+      <Image
+        src="/img/table-breakfast.jpg"
+        alt=""
+        aria-hidden
+        fill
+        sizes="100vw"
+        className="-z-10 object-cover"
+      />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-cream/92 via-cream/78 to-cream/92" />
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
         <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
-          <h2 className="font-display text-h2 text-maroon sm:text-h1 md:text-hero">The Favorites</h2>
+          <h2 className="font-display text-h2 text-maroon sm:text-h1 md:text-hero">Connie&apos;s Favorites</h2>
           <p className="max-w-2xl text-small leading-snug text-ink/80 sm:text-h4">
             The sandwiches our regulars cross town for — made to order, every time.
           </p>

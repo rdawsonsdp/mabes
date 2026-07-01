@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PHONE_DISPLAY, PHONE_HREF } from "./ContactBar";
+import { DOORDASH_HREF, UBER_EATS_HREF } from "./ContactBar";
 import { OpenToday } from "./OpenToday";
 
 // Food-first hero: the sandwich is the headline. One primary action (Order
@@ -29,7 +29,7 @@ export function Hero() {
           moment you order, right here on East 75th.
         </p>
 
-        <div className="mt-2 flex flex-col gap-3">
+        <div className="mt-2 flex flex-col gap-4">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
             <a
               href="#menus"
@@ -43,17 +43,30 @@ export function Hero() {
             >
               Order Catering
             </a>
+          </div>
+
+          {/* delivery partners — sit right under the Order / Cater buttons */}
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-small text-cream/80">Or get it delivered:</span>
             <a
-              href={PHONE_HREF}
-              className="font-display text-small tracking-widest text-cream underline-offset-4 hover:underline"
+              href={UBER_EATS_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-display rounded-pill bg-black px-5 py-2.5 text-small tracking-wide text-white transition-opacity hover:opacity-80"
             >
-              or call {PHONE_DISPLAY}
+              Uber&nbsp;Eats
+            </a>
+            <a
+              href={DOORDASH_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-display rounded-pill bg-[#EB1700] px-5 py-2.5 text-small tracking-wide text-white transition-opacity hover:opacity-80"
+            >
+              DoorDash
             </a>
           </div>
-          <p className="text-small text-cream/80">
-            Pickup or delivery · ready in minutes · 10% off your first online order with code
-            MASAVE10
-          </p>
+
+          <p className="text-small text-cream/80">Pickup or delivery · made fresh to order</p>
         </div>
       </div>
     </section>

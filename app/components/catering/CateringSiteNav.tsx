@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Close, Instagram, Menu, Phone } from "@/app/components/icons";
-import { PHONE_HREF } from "@/app/components/ContactBar";
+import { DOORDASH_HREF, PHONE_HREF, UBER_EATS_HREF } from "@/app/components/ContactBar";
 
 // Site navigation for the catering pages. Mirrors the main site Header so
 // navigation stays consistent, but without the regular CartButton (the
@@ -56,7 +56,7 @@ export function CateringSiteNav() {
             )
           )}
           <a
-            href="https://www.ubereats.com/"
+            href={UBER_EATS_HREF}
             target="_blank"
             rel="noopener noreferrer"
             className="font-display rounded-pill bg-black px-3 py-1.5 text-xs tracking-wide text-white transition-opacity hover:opacity-80"
@@ -64,7 +64,7 @@ export function CateringSiteNav() {
             Uber&nbsp;Eats
           </a>
           <a
-            href="https://www.doordash.com/"
+            href={DOORDASH_HREF}
             target="_blank"
             rel="noopener noreferrer"
             className="font-display rounded-pill bg-[#EB1700] px-3 py-1.5 text-xs tracking-wide text-white transition-opacity hover:opacity-80"
@@ -125,7 +125,7 @@ export function CateringSiteNav() {
           </a>
           <div className="mt-3 flex gap-2">
             <a
-              href="https://www.ubereats.com/"
+              href={UBER_EATS_HREF}
               target="_blank"
               rel="noopener noreferrer"
               className="font-display flex-1 rounded-pill bg-black py-2.5 text-center text-small tracking-wide text-white"
@@ -133,7 +133,7 @@ export function CateringSiteNav() {
               Uber Eats
             </a>
             <a
-              href="https://www.doordash.com/"
+              href={DOORDASH_HREF}
               target="_blank"
               rel="noopener noreferrer"
               className="font-display flex-1 rounded-pill bg-[#EB1700] py-2.5 text-center text-small tracking-wide text-white"

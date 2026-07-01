@@ -18,6 +18,11 @@ export const ORDER_HREF =
   "https://www.mabesss.com/online-ordering/mabes-kitchen/menu";
 export const CATERING_EMAIL = "mabesdeli@gmail.com";
 
+// Mabe's Deli delivery-partner store pages (verified live listings).
+export const UBER_EATS_HREF =
+  "https://www.ubereats.com/store/mabes-deli-chicago/5roziNIKRPyw79nykZry3g";
+export const DOORDASH_HREF = "https://www.doordash.com/store/mabes-deli-chicago-521982";
+
 // Prominent top contact strip: address → Google Maps (new tab), directions, phone, Call button.
 export function ContactBar() {
   return (

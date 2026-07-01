@@ -1,4 +1,3 @@
-import { PromoBar } from "./components/PromoBar";
 import { ContactBar } from "./components/ContactBar";
 import { CateringModal } from "./components/CateringModal";
 import { StickyOrderBar } from "./components/StickyOrderBar";
@@ -28,7 +27,6 @@ export default async function Home() {
 
   return (
     <CartProvider initialCart={initialCart}>
-      <PromoBar />
       <ContactBar />
       <Header />
       <main>

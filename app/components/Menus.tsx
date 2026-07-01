@@ -31,19 +31,11 @@ export function Menus({ menus }: { menus: MenuGroup[] }) {
   if (!menu) return null;
 
   return (
-    <section id="menus" className="scroll-mt-32 bg-paper py-12 sm:py-20">
+    <section id="menus" className="scroll-mt-32 border-t border-copper/20 bg-paper py-8 sm:py-12">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-        <div className="text-center">
-          <h2 className="font-display text-h2 uppercase tracking-wide text-ink sm:text-h1 md:text-hero">
-            Menus
-          </h2>
-          <p className="mt-2 font-display text-small uppercase tracking-wide text-copper sm:text-h4">
-            The Mabe&apos;s Menu
-          </p>
-        </div>
-
-        {/* sticky control bar: menu switcher + cart, then category quick-nav pills */}
-        <div className="sticky top-[88px] z-20 -mx-4 mt-6 space-y-2.5 border-b border-copper/10 bg-paper/95 px-4 py-2.5 backdrop-blur sm:-mx-6 sm:mt-8 sm:space-y-3 sm:px-6 sm:py-3 lg:top-[100px]">
+        {/* section opens straight into the sticky control bar: menu switcher +
+            cart, then the category quick-nav pills */}
+        <div className="sticky top-[88px] z-20 -mx-4 space-y-2.5 border-b border-copper/10 bg-paper/95 px-4 py-2.5 backdrop-blur sm:-mx-6 sm:space-y-3 sm:px-6 sm:py-3 lg:top-[100px]">
           {/* menu switcher + cart */}
           <div className="flex flex-wrap items-center justify-center gap-2">
             {menus.map((m, i) => (

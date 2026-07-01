@@ -6,11 +6,35 @@ import { OpenToday } from "./OpenToday";
 // Online), a scroll cue to the featured items, and an open-today chip for
 // urgency.
 export function Hero() {
+  // Daypart hero: the breakfast board before 11am (Chicago = the shop's local
+  // time), the signature sandwich after. The homepage is force-dynamic, so this
+  // re-evaluates per request.
+  const chicagoHour = parseInt(
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Chicago",
+      hour: "2-digit",
+      hourCycle: "h23",
+    }).format(new Date()),
+    10
+  );
+  const isBreakfast = chicagoHour < 11;
+  const hero = isBreakfast
+    ? {
+        src: "/img/hero-breakfast.avif",
+        alt: "Breakfast board with french toast, eggs and sides at Mabe's Sandwich Shop",
+        copy: "French toast sandwiches, scramblers, fresh juices & smoothies — breakfast made to order till 11, right here on East 75th.",
+      }
+    : {
+        src: "/img/menu-photo.jpg",
+        alt: "Grilled turkey panini stacked high at Mabe's Sandwich Shop",
+        copy: "Jerk turkey paninis, double-decker clubs, fresh salads & smoothies — made fresh the moment you order, right here on East 75th.",
+      };
+
   return (
     <section className="relative isolate overflow-hidden">
       <Image
-        src="/img/menu-photo.jpg"
-        alt="Grilled turkey panini stacked high at Mabe's Sandwich Shop"
+        src={hero.src}
+        alt={hero.alt}
         fill
         priority
         sizes="100vw"
@@ -24,10 +48,7 @@ export function Hero() {
         <h1 className="font-display max-w-2xl text-h1 leading-[1.05] text-cream md:text-hero">
           Hot Off the Press, Made to Order
         </h1>
-        <p className="max-w-xl text-h4 leading-snug text-cream/90">
-          Jerk turkey paninis, double-decker clubs, fresh salads &amp; smoothies — made fresh the
-          moment you order, right here on East 75th.
-        </p>
+        <p className="max-w-xl text-h4 leading-snug text-cream/90">{hero.copy}</p>
 
         <div className="mt-2 flex flex-col gap-4">
           {/* one equal-width CTA stack: order, cater, then the delivery apps */}

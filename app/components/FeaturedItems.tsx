@@ -133,16 +133,10 @@ export function FeaturedItems({ products }: { products: Product[] }) {
           })}
         </div>
 
-        <div className="mt-8 flex flex-col items-center gap-4 text-center sm:mt-10">
+        <div className="mt-8 text-center sm:mt-10">
           <p className="text-small italic text-warm-gray">
             Make any sandwich a combo — chips and a drink for $2 more.
           </p>
-          <a
-            href="#menus"
-            className="font-display rounded-pill border border-copper px-8 py-3 text-small tracking-widest text-copper transition-colors hover:bg-copper hover:text-cream"
-          >
-            Browse the Full Menu
-          </a>
         </div>
       </div>
     </section>
